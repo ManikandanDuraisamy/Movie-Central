@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Movies reviews</title>
+    <!-- Bootstrap JS & CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Movies reviews</h1>
+
+      <!-- Read Reviews Table -->
+      <h2>Latest reviews</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>User ID</th>
+            <th>Movie ID</th>
+            <th>Movie rating</th>
+            <th>Review</th>
+            <th>Date of review</th>
+            <th>Have you booked from Movie Central website?</th>
+          </tr>
+        </thead>
+        <tbody id="reviewsTableBody">
+          <!-- Table rows will be populated dynamically using JavaScript -->
+        </tbody>
+      </table>
+
+      <!-- Create Review Form -->
+      <h2>Give us your review:</h2>
+      <form id="createReviewForm" method="post">
+        <div class="mb-3">
+          <label for="user_id" class="form-label">User ID</label>
+          <input
+            type="text"
+            class="form-control"
+            id="user_id"
+            name="user_id"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="movie_id" class="form-label">Movie ID</label>
+          <input
+            type="text"
+            class="form-control"
+            id="movie_id"
+            name="movie_id"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="user_rating" class="form-label"
+            >Your Rating from 1 to 10</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="user_rating"
+            name="user_rating"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="user_review" class="form-label">Your Review</label>
+          <input
+            type="text"
+            class="form-control"
+            id="user_review"
+            name="user_review"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="review_date" class="form-label">Date of review</label>
+          <input
+            type="text"
+            class="form-control"
+            id="review_date"
+            name="review_date"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="certified" class="form-label"
+            >Have you booked from Movie Central website?</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="certified"
+            name="certified"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+      </form>
+    </div>
+
+    <script>
+      // Function to fetch reviews from the API
+      function fetchReviews() {
+        const url =
+          "https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/reviews";
+
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            const reviews = JSON.parse(data.body).items; // we take items in the body. (cfr. payload)
+            const tableBody = document.getElementById("reviewsTableBody");
+
+            // Clear existing rows
+            tableBody.innerHTML = "";
+
+            // Populate table rows with reviews data
+
+            // a line a in table is  <tr>...</tr>
+            // a column in a table is <td>...</td>
+            //
+            // So one line with two columns is :
+            //	<tr>
+            // 		<td>value 1</td><td>value 2</td>
+            //	</tr>
+
+            reviews.forEach((reviews) => {
+              const row = document.createElement("tr");
+              row.innerHTML =
+                "<td>" +
+                reviews.review_id +
+                "</td>" +
+                "<td>" +
+                reviews.user_id +
+                "</td>" +
+                "<td>" +
+                reviews.movie_id +
+                "</td>" +
+                "<td>" +
+                reviews.user_rating +
+                "</td>" +
+                "<td>" +
+                reviews.user_review +
+                "</td>" +
+                "<td>" +
+                reviews.review_date +
+                "</td>" +
+                "<td>" +
+                reviews.certified +
+                "</td>";
+
+              tableBody.appendChild(row);
+            });
+          })
+          .catch((error) => {
+            console.error("Unable to fetch reviews. Error:", error);
+          });
+      }
+
+      // Function to create a new review using the API
+      function createReview(event) {
+        event.preventDefault();
+
+        const form = event.target;
+        const user_id = form.user_id.value;
+        const movie_id = form.movie_id.value;
+        const user_rating = form.user_rating.value;
+        const user_review = form.user_review.value;
+        const review_date = form.review_date.value;
+        const certified = form.certified.value;
+        const url =
+          "https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/reviews";
+
+        const newReview = {
+          user_id: user_id,
+          movie_id: movie_id,
+          user_rating: user_rating,
+          user_review: user_review,
+          review_date: review_date,
+          certified: certified,
+        };
+
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newReview),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Review submitted successfully:", data);
+            // Refresh the review table to display the newly created review, by calling the fetchReviews() function :-)
+            fetchReviews();
+            // Reset the form
+            form.reset();
+          })
+          .catch((error) => {
+            console.error("Unable to create review. Error:", error);
+          });
+      }
+
+      // Fetch reviews when the page loads
+      fetchReviews();
+
+      // Add event listener to the form submit event
+      // when we click on submit, we trig the createReviews() function
+      document
+        .getElementById("createReviewForm")
+        .addEventListener("submit", createReview);
+    </script>
+  </body>
+</html>
