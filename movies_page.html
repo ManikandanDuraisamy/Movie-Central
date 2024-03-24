@@ -11,7 +11,7 @@
         <h1>Movies</h1>
 
         <!-- Read Users Table -->
-        <h2>Movies</h2>
+        <h2>Movies List</h2>
         <table class="table">
             <thead>
                 <tr>
@@ -23,25 +23,37 @@
                     <th>Release Date</th>
                 </tr>
             </thead>
-            <tbody id="userTableBody">
+            <tbody id="MovieTableBody">
                 <!-- Table rows will be populated dynamically using JavaScript -->
             </tbody>
         </table>
 
         <!-- Create User Form -->
-        <h2>Create User</h2>
+        <h2>Create Movie</h2>
         <form id="createUserForm" method="post">
             <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name" required>
+                <label for="movie_id" class="form-label">Movie ID</label>
+                <input type="text" class="form-control" id="movie_id" name="movie_id" required>
             </div>
             <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required>
+                <label for="duration" class="form-label">Duration</label>
+                <input type="text" class="form-control" id="duration" name="duration" required>
             </div>
             <div class="mb-3">
-                <label for="message" class="form-label">Message</label>
-                <input type="text" class="form-control" id="message" name="message" required>
+                <label for="genres" class="form-label">Genres</label>
+                <input type="text" class="form-control" id="genres" name="genres" required>
+            </div>
+            <div class="mb-3">
+                <label for="imdb_score" class="form-label">IMDB Score</label>
+                <input type="text" class="form-control" id="imdb_score" name="imdb_score" required>
+            </div>
+            <div class="mb-3">
+                <label for="movie_name" class="form-label">Movie Name</label>
+                <input type="text" class="form-control" id="movie_name" name="movie_name" required>
+            </div>
+            <div class="mb-3">
+                <label for="release_date" class="form-label">Release Date</label>
+                <input type="text" class="form-control" id="release_date" name="release_date" required>
             </div>
             <button type="submit" class="btn btn-primary">Create</button>
         </form>
