@@ -26,10 +26,10 @@
                     tableBody.innerHTML = '';
                     cinemas.forEach(cinema => {
                         const row = document.createElement('tr');
-                        row.innerHTML = '<td> <a href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/movies_page.html"> <img src="' + cinema.cinema_image + '"width="350" class="rounded-pill zoom"></a> </td>' +
-                                        '<td class="align-middle" width="70%"><h3 class="display-6">' + cinema.cinema_name + 
+                        row.innerHTML = '<td width="35%"> <a href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/movies_page.html"> <img src="' + cinema.cinema_image + '"width="350" class="rounded-pill zoom"></a> </td>' +
+                                        '<td class="align-middle" width="35%"><h3 class="display-6">' + cinema.cinema_name + 
                                             '</h3><br><p class="h6" >' + 
-                                            cinema.cinema_address + '</p></td><td>' + cinema.cinema_location + '</td>';     
+                                            cinema.cinema_address + '</p></td><td width="30%">' + cinema.cinema_location + '</td>';     
                         tableBody.appendChild(row);
                     });
                 })
@@ -47,7 +47,7 @@
     <div class="container" >
         <h1 class="display-4"  >Our Movie Central Belgium Cinemas</h1>
         <!-- Read Cinemas Table -->
-        <table class="table">
+        <table class="table" >
             <tbody id="userTableBody">
                 <!-- Table rows will be populated dynamically using JavaScript -->
             </tbody>

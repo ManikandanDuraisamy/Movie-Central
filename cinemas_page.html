@@ -20,6 +20,7 @@
                     <th>Cinema Address</th>
                     <th>Cinema Name</th>
                     <th>Cinema Image</th>
+                    th>Cinema Location</th>
                 </tr>
             </thead>
             <tbody id="userTableBody">
@@ -46,6 +47,10 @@
                 <label for="cinema_image" class="form-label">Cinema Image</label>
                 <input type="text" class="form-control" id="cinema_image" name="cinema_image" required>
             </div>
+            <div class="mb-3">
+                <label for="cinema_location" class="form-label">Cinema Google map Location</label>
+                <input type="text" class="form-control" id="cinema_location" name="cinema_location" required>
+            </div>
             <button type="submit" class="btn btn-primary">Create</button>
         </form>
     </div>
@@ -69,7 +74,8 @@
                         row.innerHTML = '<td>' + cinema.cinema_id + '</td>' +
 					                    '<td>' + cinema.cinema_address + '</td>' +
 					                    '<td>' + cinema.cinema_name + '</td>' +
-                                        '<td>' + cinema.cinema_image + '</td>' ;
+                                        '<td>' + cinema.cinema_image + '</td>'+
+                                        '<td>' + cinema.cinema_location + '</td>' ;
                         tableBody.appendChild(row);
                     });
                 })
@@ -87,13 +93,15 @@
             const cinema_address = form.cinema_address.value;
             const cinema_name = form.cinema_name.value;
             const cinema_image = form.cinema_image.value;
+            const cinema_location = form.cinema_location.value;
             const url = 'hhttps://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/cinemas';
 
             const newUser = {
                 cinema_id: cinema_id,
                 cinema_address: cinema_address,
                 cinema_name: cinema_name,
-                cinema_image: cinema_image
+                cinema_image: cinema_image,
+                cinema_location: cinema_location,
             };
 
             fetch(url, {
