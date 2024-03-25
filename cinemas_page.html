@@ -17,7 +17,7 @@
                     <th>Cinema ID</th>
                     <th>Cinema Address</th>
                     <th>Cinema Name</th>
-                    <th>Cinema Province</th>
+                    <th>Cinema Image</th>
                 </tr>
             </thead>
             <tbody id="userTableBody">
@@ -25,7 +25,7 @@
             </tbody>
         </table>
 
-        <!-- Create Cinema Form 
+        <!-- Create Cinema Form -->
         <h2>Create Cinemas</h2>
         <form id="createUserForm" method="post">
             <div class="mb-3">
@@ -41,12 +41,12 @@
                 <input type="text" class="form-control" id="cinema_name" name="cinema_name" required>
             </div>
             <div class="mb-3">
-                <label for="cinema_province" class="form-label">Cinema Province</label>
-                <input type="text" class="form-control" id="cinema_province" name="cinema_province" required>
+                <label for="cinema_image" class="form-label">Cinema Image</label>
+                <input type="text" class="form-control" id="cinema_image" name="cinema_image" required>
             </div>
             <button type="submit" class="btn btn-primary">Create</button>
         </form>
-    </div>-->
+    </div>
 
 
     <script>
@@ -67,7 +67,7 @@
                         row.innerHTML = '<td>' + cinema.cinema_id + '</td>' +
 					                    '<td>' + cinema.cinema_address + '</td>' +
 					                    '<td>' + cinema.cinema_name + '</td>' +
-                                        '<td>' + cinema.cinema_province + '</td>' ;
+                                        '<td>' + cinema.cinema_image + '</td>' ;
                         tableBody.appendChild(row);
                     });
                 })
@@ -84,14 +84,14 @@
             const cinema_id = form.cinema_id.value;
             const cinema_address = form.cinema_address.value;
             const cinema_name = form.cinema_name.value;
-            const cinema_province = form.cinema_province.value;
+            const cinema_image = form.cinema_image.value;
             const url = 'hhttps://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/cinemas';
 
             const newUser = {
                 cinema_id: cinema_id,
                 cinema_address: cinema_address,
                 cinema_name: cinema_name,
-                cinema_province: cinema_province
+                cinema_image: cinema_image
             };
 
             fetch(url, {
