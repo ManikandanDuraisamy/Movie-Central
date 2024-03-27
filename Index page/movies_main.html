@@ -26,8 +26,9 @@
                     tableBody.innerHTML = '';
                     movies.forEach(movie => {
                         const row = document.createElement('tr');
-                        row.innerHTML = '<td width="35%"> <a href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/administrator_html/Schedules_page.html"> <img src="' + movie.movie_image + '"width="350" class="img-thumbnail"></a> </td>' +
-                                        '<td class="align-middle" width="35%"><h3 class="display-6">' + movie.movie_name + 
+                        row.innerHTML = '<td width="35%"> <a href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/administrator_html/Schedules_page.html"> <img src="' 
+                                            + movie.movie_image + '"width="350" class="img-thumbnail"></a> </td>' +
+                                            '<td class="align-middle" width="35%"><h3 class="display-6">' + movie.movie_name + 
                                             '</h3><br><p class="h6" >' + 
                                             movie.genres + '</p> <p class="h6" >' + 
                                             movie.release_date + '</p><p class="h6" >' + 
