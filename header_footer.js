@@ -6,7 +6,7 @@ class Header extends HTMLElement {
       <img src="https://group01moviecinema.s3.eu-central-1.amazonaws.com/header_footer_images/Header+1.jpg" class="card-img" height="200px" alt="header">
       <div class="card-img-overlay">
           <br>
-      <img src="https://group01moviecinema.s3.eu-central-1.amazonaws.com/Movie+Central+1.JPG" width="100px" height="80px"  alt="Movie Central">
+      <img src="https://group01moviecinema.s3.eu-central-1.amazonaws.com/header_footer_images/Movie+Central+1.JPG" width="100px" height="80px"  alt="Movie Central">
       <br><br><br>
           <nav class="navbar navbar-expand-lg bg-body-tertiary">
               <div class="container-fluid">
