@@ -10,7 +10,7 @@
 <body>
     <main-header></main-header>
     <div class="container">
-        <h1>Movies</h1>
+     
 
         <!-- Read Users Table -->
         <h2>Movies List</h2>
@@ -25,7 +25,7 @@
                     <th>Release Date</th>
                 </tr>
             </thead>
-            <tbody id="MovieTableBody">
+            <tbody id="userTableBody">
                 <!-- Table rows will be populated dynamically using JavaScript -->
             </tbody>
         </table>
@@ -65,7 +65,7 @@
     <script>
         // Function to fetch users from the API
         function fetchUsers() {
-            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/movies';
+            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/movies/';
 
             fetch(url)
                 .then(response => response.json())
@@ -113,7 +113,7 @@
             const imdb_score = form.imdb_score.value;
             const movie_name = form.movie_name.value;
             const release_date = form.release_date.value;
-            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/movies';
+            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/movies/';
 
             const newUser = {
                 movie_id: movie_id,

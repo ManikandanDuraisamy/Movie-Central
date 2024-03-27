@@ -10,10 +10,10 @@
   <body>
     <main-header></main-header>
     <div class="container">
-      <h1>Movies reviews</h1>
+      <h2>Movies reviews</h2>
 
       <!-- Read Reviews Table -->
-      <h2>Latest reviews</h2>
+      
       <table class="table">
         <thead>
           <tr>
@@ -107,7 +107,7 @@
       // Function to fetch reviews from the API
       function fetchReviews() {
         const url =
-          "https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/reviews";
+          "https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/reviews/";
 
         fetch(url)
           .then((response) => response.json())
@@ -173,7 +173,7 @@
         const review_date = form.review_date.value;
         const certified = form.certified.value;
         const url =
-          "https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/reviews";
+          "https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/reviews/";
 
         const newReview = {
           user_id: user_id,
