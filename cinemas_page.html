@@ -10,7 +10,7 @@
 <body>
     <main-header></main-header>
     <div class="container">
-        <h1>Cinemas</h1>
+        <h2>Cinemas</h2>
 
         <!-- Read Cinemas Table -->
         <table class="table">
@@ -20,7 +20,7 @@
                     <th>Cinema Address</th>
                     <th>Cinema Name</th>
                     <th>Cinema Image</th>
-                    th>Cinema Location</th>
+                    <th>Cinema Location</th>
                 </tr>
             </thead>
             <tbody id="userTableBody">
@@ -69,16 +69,6 @@
                     
                     // Clear existing rows
                     tableBody.innerHTML = '';
-                                        // Populate table rows with user data
-					
-						// a line a in table is  <tr>...</tr>
-						// a column in a table is <td>...</td>
-						//
-						// So one line with two columns is : 
-						//	<tr>
-						// 		<td>value 1</td><td>value 2</td>
-						//	</tr>
-                        
                     cinemas.forEach(cinema => {
                         const row = document.createElement('tr');
                         row.innerHTML = '<td>' + cinema.cinema_id + '</td>' +
