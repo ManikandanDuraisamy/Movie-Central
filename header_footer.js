@@ -19,7 +19,7 @@ class Header extends HTMLElement {
                           <a class="nav-link" href="#">Movies</a>
                       </li>
                       <li class="nav-item">
-                          <a class="nav-link" href="#">Cinemas</a>
+                          <a class="nav-link" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/main_pages_html/cinemas_main.html">Cinemas</a>
                       </li>
                       <li class="nav-item">
                           <a class="nav-link"  href="#">Schedule</a>
@@ -32,12 +32,12 @@ class Header extends HTMLElement {
                       Administrator
                       </a>
                       <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/movies_page.html">Movies</a></li>
-                        <li><a class="dropdown-item" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/cinemas_page.html">Cinemas</a></li>
-                        <li><a class="dropdown-item" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/schedules_page.html">Schedule</a></li>
-                        <li><a class="dropdown-item" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/users_page.html">User</a></li>
-                        <li><a class="dropdown-item" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/reviews_page.html">Review</a></li>
-                        <li><a class="dropdown-item" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/bookings_page.html">Booking</a></li>
+                        <li><a class="dropdown-item" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/administrator_html/movies_page.html">Movies</a></li>
+                        <li><a class="dropdown-item" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/administrator_html/cinemas_page.html">Cinemas</a></li>
+                        <li><a class="dropdown-item" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/administrator_html/Schedules_page.html">Schedule</a></li>
+                        <li><a class="dropdown-item" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/administrator_html/users_page(get%26post)-2.html">User</a></li>
+                        <li><a class="dropdown-item" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/administrator_html/reviews_page-2.html">Review</a></li>
+                        <li><a class="dropdown-item" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/administrator_html/bookings_page.html">Booking</a></li>
                       </ul>
                     </li>
                   </ul>
