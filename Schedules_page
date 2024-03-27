@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" >
 <head>
@@ -99,14 +98,14 @@
           //	</tr>
           schedules.forEach(schedules => {
             const row = document.createElement('tr');
-            row.innerHTML = '<td>' + schedule.schedule_id + '</td>' +
-              '<td>' + schedule.cinema_id + '</td>' +
-              '<td>' + schedule.movie_schedule_date + '</td>' +
-              '<td>' + schedule.format + '</td>' +
-              '<td>' + schedule.language + '</td>' +
-              '<td>' + schedule.subtitles + '</td>' +
-              '<td>' + schedule.subtitles_language + '</td>' +
-              '<td>' + schedule.cosy_seat_option + '</td>';
+            row.innerHTML = '<td>' + schedules.schedule_id + '</td>' +
+              '<td>' + schedules.cinema_id + '</td>' +
+              '<td>' + schedules.movie_schedule_date + '</td>' +
+              '<td>' + schedules.format + '</td>' +
+              '<td>' + schedules.language + '</td>' +
+              '<td>' + schedules.subtitles + '</td>' +
+              '<td>' + schedules.subtitles_language + '</td>' +
+              '<td>' + schedules.cosy_seat_option + '</td>';
             tableBody.appendChild(row);
           });
         })
@@ -168,4 +167,3 @@
   
 </body>
 </html>
-

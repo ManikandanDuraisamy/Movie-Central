@@ -69,6 +69,16 @@
                     
                     // Clear existing rows
                     tableBody.innerHTML = '';
+                                        // Populate table rows with user data
+					
+						// a line a in table is  <tr>...</tr>
+						// a column in a table is <td>...</td>
+						//
+						// So one line with two columns is : 
+						//	<tr>
+						// 		<td>value 1</td><td>value 2</td>
+						//	</tr>
+                        
                     cinemas.forEach(cinema => {
                         const row = document.createElement('tr');
                         row.innerHTML = '<td>' + cinema.cinema_id + '</td>' +
