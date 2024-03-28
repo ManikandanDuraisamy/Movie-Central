@@ -19,7 +19,7 @@ class Header extends HTMLElement {
                           <a class="nav-link" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/main_pages_html/movies_main.html">Movies</a>
                       </li>
                       <li class="nav-item">
-                          <a class="nav-link" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/main_pages_html/movies_main.html">Cinemas</a>
+                          <a class="nav-link" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/main_pages_html/cinemas_main.html">Cinemas</a>
                       </li>
                       <li class="nav-item">
                           <a class="nav-link"  href="#">Schedule</a>

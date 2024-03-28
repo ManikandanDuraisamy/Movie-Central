@@ -26,10 +26,10 @@
                     tableBody.innerHTML = '';
                     cinemas.forEach(cinema => {
                         const row = document.createElement('tr');
-                        row.innerHTML = '<td width="35%"> <a href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/main_pages_html/cinemas_main.html"> <img src="' + cinema.cinema_image + 
-                                        '"width="350" class="rounded-pill zoom"></a> </td>' +
-                                        '<td class="align-middle" width="35%"><h3 class="display-6">' + cinema.cinema_name + 
-                                            '</h3><br><p class="h6" >' + 
+                        row.innerHTML = '<td width="35%"> <a href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/main_pages_html/movies_main.html">  <img src="' + cinema.cinema_image + 
+                                        '"width="350" class="rounded-pill zoom border border-warning border-2"></a> </td>' +
+                                        '<td class="align-middle" width="35%"> <a href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/main_pages_html/movies_main.html" class="removeUnderline"> <h3 class=" p-3 mb-2 bg-warning text-dark display-6">' + cinema.cinema_name + 
+                                            '</h3> <br><p class="h6" > </a> ' + 
                                             cinema.cinema_address + '</p></td><td width="30%">' + cinema.cinema_location + '</td>';     
                         tableBody.appendChild(row);
                     });
