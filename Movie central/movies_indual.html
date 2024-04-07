@@ -12,37 +12,35 @@
     <link href="movie_central.css" rel="stylesheet" type="text/css">
     <script src="header_footer.js"></script>
     <script>
-        // Function to show movie details in details page
-        function constructMovieDetailsPageURL(movieId) {
-                // Construct the URL for the new page with the movieID as a query parameter
-                const newPageURL = 'movies_indual.html?movieId=' + movieId + '';
-                // Navigate to the new page
-                window.location.href = newPageURL;                
-            }
+        //Retrieve the value of the movie id parameter from the url
+        const urlParams = new URLSearchParams(window.location.search);
+        const movieId = urlParams.get('movieId');
 
         // Function to fetch cinemas from the API
         function fetchUsers() {
-            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/schedules';
+            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/movies/'+movieId;
 
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    const movies = JSON.parse(data.body).items; // we take items in the body. (cfr. payload)
+                    const movie = JSON.parse(data.body).item; // we take items in the body. (cfr. payload)
                     const tableBody = document.getElementById('userTableBody');
                     
                     // Clear existing rows
                     tableBody.innerHTML = '';
-                    movies.forEach(movie => {
+                    
                         const row = document.createElement('tr');
-                        row.innerHTML = '<td width="35%"> <a onClick="constructMovieDetailsPageURL(\'' + movie.movie_id + '\')"> <img src="' 
+                        row.innerHTML = '<td width="35%"> <a href=""> <img src="' 
                                             + movie.movie_image + '"width="150" class="rounded-3 zoom border border-warning"></a> </td>' +
-                                            '<td class="align-middle" width="35%"><h3 class="p-3 mb-2 bg-warning text-dark display-6">' + movie.movie_name + 
+                                            '<td class="align-middle" width="35%"><h3 class="p-3 mb-2 bg-warning text-dark display-6">' 
+                                                + movie.movie_name + 
                                             '</h3><br><p class="h6" >' + 
                                             movie.genres + '</p> <p class="h6" >' + 
                                             movie.release_date + '</p><p class="h6" >' + 
-                                            movie.duration + '</p></td><td class="align-middle" width="30%"> <h3 class="display-6">'   + movie.imdb_score + '</h3></td>';     
+                                            movie.duration + '</p></td><td class="align-middle" width="30%"> <h3 class="display-6">'   
+                                                + movie.imdb_score + '</h3></td>';     
                         tableBody.appendChild(row);
-                    });
+                    
                 })
                 .catch(error => {
                     console.error('Unable to fetch users. Error:', error);
@@ -59,7 +57,7 @@
         <h1 class="display-4"  >Movies now running</h1>
         <!-- Read Cinemas Table -->
         <table class="table" border="1">
-            <div class="p-3 mb-2 bg-secondary text-white" >
+            <div class="p-3 mb-2 bg-secondary text-white">
                 <thead> 
                     <tr>
                         <th></th>

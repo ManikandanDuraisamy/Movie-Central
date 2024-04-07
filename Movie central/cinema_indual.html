@@ -12,36 +12,34 @@
     <link href="movie_central.css" rel="stylesheet" type="text/css">
     <script src="header_footer.js"></script>
     <script>
-        // Function to show cinema details in details page
-        function constructCinemaDetailsPageURL(cinemaId) {
-                // Construct the URL for the new page with the movieID as a query parameter
-                const newPageURL = 'cinema_indual.html?cinemaId=' + cinemaId + '';
-                // Navigate to the new page
-                window.location.href = newPageURL;                
-            }
+        //Retrieve the value of the cinema id parameter from the url
+        const urlParams = new URLSearchParams(window.location.search);
+        const cinemaId = urlParams.get('cinemaId');
 
         // Function to fetch cinemas from the API
         function fetchUsers() {
-            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/cinemas';
+            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/cinemas/'+cinemaId;
 
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    const cinemas = JSON.parse(data.body).items; // we take items in the body. (cfr. payload)
+                    const cinema = JSON.parse(data.body).item; // we take items in the body. (cfr. payload)
                     const tableBody = document.getElementById('userTableBody');
                     
                     // Clear existing rows
                     tableBody.innerHTML = '';
-                    cinemas.forEach(cinema => {
+                    
                         const row = document.createElement('tr');
-                        row.innerHTML = '<td width="35%"> <a onClick="constructCinemaDetailsPageURL(\'' + cinema.cinema_id + '\')">  <img src="' 
+                        row.innerHTML = '<td width="35%"> <a href="">  <img src="' 
                                             + cinema.cinema_image + 
                                             '"width="350" class="rounded-pill zoom border border-warning border-2"></a> </td>' +
-                                         '<td class="align-middle" width="35%"> <a href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/main_pages_html/movies_main.html" class="removeUnderline"> <h3 class=" p-3 mb-2 bg-warning text-dark display-6">' + cinema.cinema_name + 
+                                            '<td class="align-middle" width="35%"> <a href=" " class="removeUnderline"> <h3 class=" p-3 mb-2 bg-warning text-dark display-6">' 
+                                                + cinema.cinema_name + 
                                             '</h3> <br><p class="h6" > </a> ' + 
-                                            cinema.cinema_address + '</p></td><td width="30%">' + cinema.cinema_location + '</td>';     
+                                            cinema.cinema_address + '</p></td><td width="30%">' 
+                                                + cinema.cinema_location + '</td>';     
                         tableBody.appendChild(row);
-                    });
+                
                 })
                 .catch(error => {
                     console.error('Unable to fetch users. Error:', error);

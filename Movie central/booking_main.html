@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bookings</title>
+<!-- Bootstrap JS & CSS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<link href="movie_central.css" rel="stylesheet" type="text/css">
+<script src="header_footer.js"></script>
+</head>
+</head>
+<body>
+    <main-header></main-header>
+    <div class="container">
+        <h1>Book your tickets!</h1>
+
+    <form id="booking-form">
+        <div class="half left">
+            <label for="name">Username :</label>
+            <input type="text" id="name" name="name" required>
+             <br>
+            <br>
+            <label for="email">Email Address :</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="half right">
+            <label for="phone">Phone number :</label>
+            <input type="tel" id="phone" name="phone" required>
+        </div>
+        <div lass="half left">
+            <label for="date">Date :</label>
+            <input type="date" id="date" name="date" required>
+        </div>
+        <div class="half right" >
+            <label for="destination">Cinema Name :</label>
+            <select id="destination" name="destination" required>
+                <option value="">Chose the right location</option>
+                <!-- Ajoutez ici les options de destination -->
+                <option value="">Kinepolis Brussels</option>
+                <option value="">UGC De Brouckère</option>
+                <option value="">UGC Toison d'Or</option>
+                <option value="">Cinema Aventure</option>
+                <option value="">Cinema Rio</option>
+                <option value="">Kinepolis Antwerp</option>
+                <option value="">Kinepolis Liège</option>
+                <option value="">Acinapolis Pathé</option>
+                <option value="">Cinema Cameo</option>
+                <option value="">Cinema For&ver</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="quantity">Number of Tickets :</label>
+            <input type="number" id="quantity" name="quantity" min="1" required>
+        </div>
+		<div class="half left">
+            <label for="seat">Seat option :
+                <!-- Ajoutez ici les options de destination -->
+            <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Normal</label>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+            <label class="form-check-label" for="flexSwitchCheckChecked">Cosy</label>
+          </div>
+        </div>
+        <div class="half right">
+            <label for="price_option">Ticket Price option :
+                <!-- Ajoutez ici les options de destination -->
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Normal</label>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+            <label class="form-check-label" for="flexSwitchCheckChecked">Reduced</label>
+          </div>
+        </div>
+        <div class="half left">
+        <button type="button" class="btn btn-outline-success">Book Now</button>
+        </div>
+    </form>
+
+    </div>
+    <main-footer></main-footer>
+</body>
+</html>

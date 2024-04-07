@@ -3,26 +3,20 @@ class Header extends HTMLElement {
       this.innerHTML = `
               <div class="sticky-top">
       <header>
-      <img src="https://group01moviecinema.s3.eu-central-1.amazonaws.com/header_footer_images/Header+1.jpg" class="card-img" height="200px" alt="header">
+      <img src="https://group01moviecinema.s3.eu-central-1.amazonaws.com/header_footer_images/Header+3.jpg" class="card-img" height="150px" alt="header">
       <div class="card-img-overlay">
           <br>
       <img src="https://group01moviecinema.s3.eu-central-1.amazonaws.com/header_footer_images/Movie+Central+1.JPG" width="100px" height="80px"  alt="Movie Central">
-      <br><br><br>
-          <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <br>
+          <nav class="navbar navbar-expand-lg bg-body-tertiary" >
               <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="navbarScroll">
-                  <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                  <ul class="navbar-nav me-auto my-1 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                       <li class="nav-item">
-                          <a class="nav-link" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/index.html">Home</a>
-                      </li>
-                      <li class="nav-item">
-                          <a class="nav-link" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/main_pages_html/movies_main.html">Movies</a>
+                          <a class="nav-link" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/main_pages_html/movies_main.html">Home</a>
                       </li>
                       <li class="nav-item">
                           <a class="nav-link" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/main_pages_html/cinemas_main.html">Cinemas</a>
-                      </li>
-                      <li class="nav-item">
-                          <a class="nav-link"  href="#">Schedule</a>
                       </li>
                       <li class="nav-item">
                           <a class="nav-link" href="#">Booking</a>
@@ -63,7 +57,7 @@ class Header extends HTMLElement {
         `
           <footer>
           <div class="card text-bg-dark">
-              <img src="https://group01moviecinema.s3.eu-central-1.amazonaws.com/header_footer_images/Footer1.jpg" class="card-img" height="200px" alt="footer">
+              <img src="https://group01moviecinema.s3.eu-central-1.amazonaws.com/header_footer_images/Header+3.jpg" class="card-img" height="200px" alt="footer">
               <div class="card-img-overlay">
                 <h3 class="card-title">Movie Central</h3><br> 
                 <p class="card-text">Save time, save money! <br> 
