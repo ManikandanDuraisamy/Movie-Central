@@ -11,7 +11,7 @@ class Header extends HTMLElement {
           <nav class="navbar navbar-expand-lg bg-body-tertiary" >
               <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="navbarScroll">
-                  <ul class="navbar-nav me-auto my-1 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                  <ul class="navbar-nav me-auto my-1 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 50px;">
                       <li class="nav-item">
                           <a class="nav-link" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/main_pages_html/movies_main.html">Home</a>
                       </li>
