@@ -11,7 +11,7 @@ class Header extends HTMLElement {
           <nav class="navbar navbar-expand-lg bg-body-tertiary" >
               <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="navbarScroll">
-                  <ul class="navbar-nav me-auto my-1 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 50px;">
+                  <ul class="navbar-nav me-auto my-1 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                       <li class="nav-item">
                           <a class="nav-link" href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/main_pages_html/movies_main.html">Home</a>
                       </li>
@@ -56,16 +56,28 @@ class Header extends HTMLElement {
       this.innerHTML = 
         `
           <footer>
+          <p>&copy; 2024 Movie Central. All rights reserved.</p>
           <div class="card text-bg-dark">
               <img src="https://group01moviecinema.s3.eu-central-1.amazonaws.com/header_footer_images/Header+3.jpg" class="card-img" height="200px" alt="footer">
               <div class="card-img-overlay">
                 <h3 class="card-title">Movie Central</h3><br> 
                 <p class="card-text">Save time, save money! <br> 
-                  Sign up and we'll send the best deals to you</p><br>
-                <p class="card-text"><small>moviecentral@gmail.com
-                  <br> 
-                  24/7 <br>
-                </small></p>
+                  Sign up and we'll send the best deals to you</p>  
+                  <form>
+                <div class="mb-3">
+                    <label for="emailAddress" class="form-label">Email Address</label>
+                    <input type="text" class="form-control" id="email" name="email" required>
+                <button type="submit" class="btn btn-primary">Register</button>
+                </div>
+                </form>
+                  <p class="card-text"><small>moviecentral@gmail.com
+                    <br> 
+                    24/7 <br>
+                  </small></p>    
+                  
+                
+                
+                     
               </div>
             
       </footer>`
