@@ -6,14 +6,14 @@
     <title>Stripe Payment Simulation</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="header_footer.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <link href="movie_central.css" rel="stylesheet" type="text/css">
     <style>
         div.test {display: none;}
         div.text {display: none;}
     </style>
-    <script src="header_footer.js"></script>
-
+    
     <script>
         
 
@@ -31,7 +31,7 @@ function fetchBookings() {
             const bookings = JSON.parse(data.body).items; // we take items in the body. (cfr. payload)
             bookings.forEach(booking => {
                 if(booking.booking_id == bookingId){
-                    document.getElementById("amountToPay").innerHTML = '<p> You have to Pay: €' + booking.price+ '</p>'
+                    document.getElementById("amountToPay").innerHTML = '<p class="btn btn-warning"> Amount to Pay: €' + booking.price+ '</p>'
                 }
             });
         })
@@ -59,8 +59,8 @@ fetchBookings();
 <body>
     <main-header></main-header>
     <div class="container" id="main-container">
-        <h2 class="mt-5 mb-4">Stripe Payment</h2>
-            <div id="amountToPay"></div>
+        <h1 class="display-4">Stripe Payment</h1>
+                <h1 id="amountToPay" class="display-7" ></h1>
         <form id="payment-form">
             <div class="form-group">
                 <label for="card-element">Credit or debit card</label>
@@ -92,7 +92,7 @@ fetchBookings();
             </div>
             <!-- End of additional fields -->
 
-            <button type="submit" class="btn btn-primary">Confirm Payment</button>
+            <button type="submit" class="btn btn-warning">Confirm Payment</button>
         </form>
     </div>
     <div class="test" id="box-container" >

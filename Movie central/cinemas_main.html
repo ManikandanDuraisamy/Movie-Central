@@ -4,6 +4,14 @@
     <!--metatags from startertemplate in bootstrap-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        
+        
+        td {
+          text-align: center;
+        }
+        
+    </style>
 
     <title>Cinemas</title>
 
@@ -37,9 +45,9 @@
                         row.innerHTML = '<td width="35%"> <a onClick="constructCinemaDetailsPageURL(\'' + cinema.cinema_id + '\')">  <img src="' 
                                             + cinema.cinema_image + 
                                             '"width="350" class="rounded-pill zoom border border-warning border-2"></a> </td>' +
-                                         '<td class="align-middle" width="35%"> <a href="https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/main_pages_html/movies_main.html" class="removeUnderline"> <h3 class=" p-3 mb-2 bg-warning text-dark display-6">' + cinema.cinema_name + 
+                                         '<td class="align-middle" width="35%">  <h3 class=" p-3 mb-2 bg-warning text-dark display-6">' + cinema.cinema_name + 
                                             '</h3> <br><p class="h6" > </a> ' + 
-                                            cinema.cinema_address + '</p></td><td width="30%">' + cinema.cinema_location + '</td>';     
+                                            cinema.cinema_address + '</p></td><td width="30%" class="align-middle"><p class="border border-warning border-2">' + cinema.cinema_location + '</p></td>';     
                         tableBody.appendChild(row);
                     });
                 })
@@ -55,10 +63,10 @@
 <body>
     <main-header></main-header>
     <div class="container" >
-        <h1 class="display-4"  >Our Movie Central Belgium Cinemas</h1>
+        <h1 class="display-5"  >Cinemas in Movie Central</h1>
         <!-- Read Cinemas Table -->
         <table class="table" >
-            <div class="p-3 mb-2 bg-secondary text-white"></div>
+          
             <thead> 
                 <tr>
                     <th>Theater</th>

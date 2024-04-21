@@ -4,7 +4,14 @@
     <!--metatags from startertemplate in bootstrap-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <style>
+        
+        
+        td {
+          text-align: center;
+        }
+        
+        </style>
     <title>Cinemas</title>
 
     <!-- Bootstrap JS & CSS -->
@@ -16,6 +23,13 @@
         const urlParams = new URLSearchParams(window.location.search);
         const cinemaId = urlParams.get('cinemaId');
 
+        // Function to show movie details in details page
+        function constructMovieDetailsPageURL(movieId) {
+                // Construct the URL for the new page with the movieID as a query parameter
+                const newPageURL = 'schedule_details.html?movieId=' + movieId + '';
+                // Navigate to the new page
+                window.location.href = newPageURL;                
+            }
         // Function to fetch cinemas from the API
         function fetchUsers() {
             const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/schedules';
@@ -32,15 +46,15 @@
                         if(schedule.cinema_id == cinemaId){
                         const row1 = document.getElementById('movieImage');
                         const row2 = document.createElement('tr');
-                        row1.innerHTML = '<td width="25%"><img src="' 
+                        row1.innerHTML = '<td width="25%" class="p-3 mb-2 bg-warning text-dark"><img src="' 
                                             + schedule.cinema_image +'"width="350" class="rounded-pill zoom border border-warning border-2"> </td>'+
-                                            '<td class="align-middle" width="20%">  <h3 class="p-3 mb-2 bg-warning text-dark display-6">' + schedule.cinema_name + 
+                                            '<td class="align-middle p-3 mb-2 bg-warning text-dark" width="20%">  <h3 class="p-3 mb-2 bg-warning text-dark display-6">' + schedule.cinema_name + 
                                             '</h3> <br><p class="h6" >' + 
-                                            schedule.cinema_address + '</p></td><td></td><td> </td><td></td><td></td>' + 
-                                            '<td width="30%">' + schedule.cinema_location + '</td>' ;
+                                            schedule.cinema_address + '</p></td>' + 
+                                            '<td class="p-3 mb-2 bg-warning text-dark" width="30%">' + schedule.cinema_location + '</td>' ;
                                         
-                        row2.innerHTML = '<td width="20%" ><img src="' 
-                                            + schedule.movie_image +'"width="300" class="rounded-3 zoom border border-warning"> '+
+                        row2.innerHTML = '<td width="20%" ><a onClick="constructMovieDetailsPageURL(\'' + schedule.movie_id + '\')">  <img src="' 
+                                            + schedule.movie_image +'"width="270" class="rounded-3 zoom border border-warning"></a>'+
                                             '<td  width="20%" ><h2 class="p-3 mb-2 bg-warning text-dark display-6">' + schedule.movie_name + 
                                             '</h2><br><p class="h6">' + 
                                             schedule.genres + '</p> <p class="h6" >' + 
@@ -68,21 +82,17 @@
 <body>
     <main-header></main-header>
     <div class="container" >
-        <h1 class="display-4"  >Our Movie Central Belgium Cinemas</h1>
+        <h1 class="display-5"  >Movies now showing in</h1>
         <!-- Read Cinemas Table -->
         <table  class="table" border="1" >
-            
-            <tr>
-  
-                <tbody id = "movieImage"  >
-                    <!-- Table rows will be populated dynamically using JavaScript -->
-                </tbody>              
+            <tr id="movieImage">
+                             
             </tr>
-           
-            
+        </table>
+        <table class="table" border="1">
                 <tr  border="1">
-                    <th>Movie Now Showing</th>
-                     <th>Details</th>
+                    <th></th>
+                     <th>Movie</th>
                      <th>Format</th>
                      <th>Language</th>
                      <th>Subtitle</th>

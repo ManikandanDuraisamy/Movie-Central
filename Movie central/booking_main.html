@@ -4,6 +4,11 @@
     <!--metatags from startertemplate in bootstrap-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        td {
+          text-align: center;
+        }
+    </style>
 
     <title>Booking Details</title>
 
@@ -121,7 +126,7 @@
 <body>
     <main-header></main-header>
     <div class="container" >
-        <h1 class="display-4"  >Booking details</h1>
+        <h1 class="display-5"  >Booking details</h1>
         <!-- Read Cinemas Table -->
         <table class="table" width="100%" border="1">
                 
@@ -133,7 +138,7 @@
                 <td width ="50%">
            <!-- Create Booking Form -->
            <div class="container">
-            <h2>Please enter your inputs:</h2>
+            <h2>Please provide the booking details</h2>
             <form id="createBookingForm" method="post" onsubmit="createBooking(event)">
                 <div class="row">
                     <div class="col-md-6">
@@ -148,6 +153,21 @@
                             <select class="form-select" id="reduced_price" name="reduced_price">
                                 <option value="false">False</option>
                                 <option value="true">True</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label">Quantity</label>
+                            <select class="form-select" id="quantity" name="quantity">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
                             </select>
                         </div>
                     </div>
@@ -170,9 +190,10 @@
                             </select>
                         </div>
                     </div>
+                    
                 </div>
                 <br><br>
-                <button type="submit" class="btn btn-primary">Confirm & Proceed to Pay</button>
+                <button type="submit" class="btn btn-primary p-3 mb-2 bg-warning text-dark"> <b>Confirm & Proceed to Pay</b></button>
             </form>
         </div></td>
                 </tr>

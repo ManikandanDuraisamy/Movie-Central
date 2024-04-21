@@ -19,9 +19,6 @@ tr:hover {
 
 @import "compass/css3";
 
-@import url("https://fonts.googleapis.com/css?family=Truculenta");
-$red: #e74c3c;
-
 *, 
 *:before, 
 *:after {
@@ -36,7 +33,7 @@ html, body {
 
 h1 {
    text-align: center;
-   color: #a8a8a8;
+   color: #1d00fa;
    @include text-shadow(1px 1px 0 rgba(white, 1));
 }
 
@@ -117,7 +114,7 @@ form {
   box-sizing: border-box;
 }
 body{
-  background: #f9f7f700;
+  background: #00000000;
 }
 #box-container{
   width: 150px;
@@ -126,7 +123,7 @@ body{
 .text{
   width: 100%;
   text-align: center;
-  color: rgba(255, 204, 0, 0.897);;
+  color: rgba(35, 2, 250, 0.897);
   font-size: 20px;
   font-family: 'Ubuntu', sans-serif;
   letter-spacing: 1px;
@@ -134,7 +131,7 @@ body{
 .boxes{
   width: 50px;
   height: 50px;
-  background: rgba(255, 204, 0, 0.897);
+  background: rgb(51, 0, 255);
   position: relative;
 }
 .box1{
@@ -236,3 +233,42 @@ body{
   background: #ff6600;
   color: white;
 }
+.btn-primary{
+  --bs-btn-color:#fff;
+  --bs-btn-bg:rgba(255, 204, 0, 0.897);
+  --bs-btn-border-color:rgba(255, 204, 0, 0.897);
+  --bs-btn-hover-color:#fff;
+  --bs-btn-hover-bg:rgba(255, 204, 0, 0.897);
+  --bs-btn-hover-border-color:rgba(255, 204, 0, 0.897);
+  --bs-btn-focus-shadow-rgb:49,132,253;
+  --bs-btn-active-color:#fff;
+  --bs-btn-active-bg:rgba(255, 204, 0, 0.897);
+  --bs-btn-active-border-color:rgba(255, 204, 0, 0.897);
+  --bs-btn-active-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color:#fff;
+  --bs-btn-disabled-bg:rgba(255, 204, 0, 0.897);
+  --bs-btn-disabled-border-color:#0d6efd
+}
+
+th {
+  text-align: center;
+}
+
+.form-control1{
+  display:block;
+  width:20%;
+  padding:.375rem .75rem;
+  font-size:1rem;
+  font-weight:400;
+  line-height:1.5;
+  color:var(--bs-body-color);
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  appearance:none;
+  background-color:var(--bs-body-bg);
+  background-clip:padding-box;
+  border:var(--bs-border-width) solid var(--bs-border-color);
+  border-radius:var(--bs-border-radius);
+  transition:border-color .15s ease-in-out,box-shadow .15s ease-in-out
+}
+

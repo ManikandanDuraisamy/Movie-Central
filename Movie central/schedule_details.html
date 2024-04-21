@@ -4,6 +4,14 @@
     <!--metatags from startertemplate in bootstrap-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        
+        
+        td {
+          text-align: center;
+        }
+        
+    </style>
 
     <title>Cinemas</title>
 
@@ -75,9 +83,9 @@
 <body>
     <main-header></main-header>
     <div class="container" >
-        <h1 class="display-4"  >Our Movie Central Belgium Cinemas</h1>
+        <h1 class="display-5"  >Currently showing Here</h1>
         <!-- Read Cinemas Table -->
-        <table  border="1" >
+        <table class="table"  border="1" >
             
             <tr>
   
@@ -85,11 +93,9 @@
                     <!-- Table rows will be populated dynamically using JavaScript -->
                 </tbody>              
             </tr>
-            <tr>
-                <th>&nbsp;</th>        
-          </tr>
+           
             
-                <tr class="align-middle p-3 mb-2 bg-warning text-dark" border="1">
+                <tr class="p-3 mb-2 bg-warning text-dark" border="1">
                     <th>Cinema</th>
                      <th>Address</th>
                      <th>Format</th>
@@ -101,9 +107,7 @@
                      
               </tr>
               
-              <tr>
-                <th>&nbsp;</th>        
-          </tr>
+             
             <tbody id="userTableBody" class="align-middle">
                 <!-- Table rows will be populated dynamically using JavaScript -->
             </tbody>

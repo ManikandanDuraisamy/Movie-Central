@@ -39,7 +39,7 @@
                                                 cinemaDetails.cinema_address + '</p>';
                         document.getElementById('bookingDate').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + booking.booking_date;
                         document.getElementById('userMessage').innerHTML = '<b>Dear '+booking.username +'!</b> <br>Thank you for booking with <b>MovieCentral™</b>. We have sent your ticket to '
-                                                                            + booking.email_address + '. <br> <br>You can show the QR code on your mobile at the entrance.<br><br><b>Follow us on:</b>'
+                                                                            + booking.email_address + ' <br> <br>You can show the QR code on your mobile at the entrance.<br><br><b>Follow us on:</b>'
                     });
                 })
                 .catch(error => {
@@ -53,7 +53,7 @@
 <body>
     <main-header></main-header>
     <div class="container" >
-        <h1 class="display-4"  >Booking details</h1>
+        <h1 class="display-5" > Voila..! Here is Your Ticket..!</h1>
         <!-- Read Cinemas Table -->
         <table class="table" width="100%" border="1">
                 
