@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--metatags from startertemplate in bootstrap-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>View Tickets</title>
+
+    <!-- Bootstrap JS & CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="movie_central.css" rel="stylesheet" type="text/css">
+    <script src="header_footer.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const bookingId = urlParams.get('bookingId');
+        function fetchBookings() { 
+            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/bookings/' + bookingId + '';
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const bookings = JSON.parse(data.body).item; // we take items in the body. (cfr. payload)
+                    bookings.forEach(booking => {
+                        const cell1 = document.getElementById('cell1');
+                        const cell2 = document.getElementById('cell2');
+                        const movieDetails = booking.movie_details
+                        const cinemaDetails = booking.cinema_details
+                        var cosy = ""
+                        if(booking.cosy_seat_option){
+                            cosy = "Cosy"
+                        }
+                        cell1.innerHTML = '<img src="' 
+                                            + movieDetails.movie_image +'"width="280" class="rounded-3 zoom border border-warning">';
+                        cell2.innerHTML =   '<h2 class="display-6 ">' + movieDetails.movie_name + 
+                                            '</h2> <br> <p>' +
+                                          '<p>' + booking.movie_schedule_date + '</p><p>'  + booking.format + '&nbsp; &nbsp;Version: ' + booking.language + '</p>' +
+                                          '<p> Subtitle: ' + booking.subtitles_language + '&nbsp; &nbsp;' + cosy + '</p> <p> Duration: ' + movieDetails.duration + ' Minutes</p><br> <h3 class="display-7">' + cinemaDetails.cinema_name + 
+                                            '</h3><p >' + 
+                                                cinemaDetails.cinema_address + '</p>';
+                        document.getElementById('bookingDate').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + booking.booking_date;
+                        document.getElementById('userMessage').innerHTML = '<b>Dear '+booking.username +'!</b> <br>Thank you for booking with <b>MovieCentral™</b>. We have sent your ticket to '
+                                                                            + booking.email_address + '. <br> <br>You can show the QR code on your mobile at the entrance.<br><br><b>Follow us on:</b>'
+                    });
+                })
+                .catch(error => {
+                    console.error('Unable to fetch bookings. Error:', error);
+                })
+                
+        }
+        fetchBookings()
+    </script>
+</head>
+<body>
+    <main-header></main-header>
+    <div class="container" >
+        <h1 class="display-4"  >Booking details</h1>
+        <!-- Read Cinemas Table -->
+        <table class="table" width="100%" border="1">
+                
+            <tbody id="userTableBody">
+                <!-- Table rows will be populated dynamically using JavaScript -->
+                <tr id="bookingTable">
+                <td width ="30%"  class="align-middle p-3 mb-2">
+                    <p id="userMessage"></p>
+                    <a href="#" class="fa fa-facebook"></a>
+<a href="#" class="fa fa-twitter"></a>
+
+<a href="#" class="fa fa-youtube"></a>
+<a href="#" class="fa fa-instagram"></a>
+
+
+      
+                </td>
+                <td width ="0.1%" id="cell1" class="p-3 mb-2 bg-warning text-dark display-6"></td>
+                <td width ="30%" id="cell2" class="align-middle p-3 mb-2"></td>
+                
+                <td width ="30%"  class="align-middle p-3 mb-2">
+                    <img src="https://group01moviecinema.s3.eu-central-1.amazonaws.com/header_footer_images/Qrcode.jpg.webp" width="90%"/>
+                    <p id="bookingDate"></p>
+                    <a href="#">Download Ticket</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="#">Print Ticket</a>
+                </td>
+                
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+    <main-footer></main-footer>
+      
+</body>
+</html>

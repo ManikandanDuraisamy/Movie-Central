@@ -34,8 +34,8 @@
                     tableBody.innerHTML = '';
                     movies.forEach(movie => {
                         const row = document.createElement('tr');
-                        row.innerHTML = '<td width="35%"> <a onClick="constructMovieDetailsPageURL(\'' + movie.movie_id + '\')"> <img src="' 
-                                            + movie.movie_image + '"width="250" class="rounded-3 zoom border border-warning"></a> </td>' +
+                        row.innerHTML = '<td width="70%" class="btn btn-primary"> <a onClick="constructMovieDetailsPageURL(\'' + movie.movie_id + '\')"> <img src="' 
+                                            + movie.movie_image + '"width="300" class="rounded-3 zoom border border-warning "></a> </td>' +
                                             '<td class="align-middle" width="35%"><h3 class="p-3 mb-2 bg-warning text-dark display-6">' + movie.movie_name + 
                                             '</h3><br><p class="h6" >' + 
                                             movie.genres + '</p> <p class="h6" >' + 
@@ -59,7 +59,7 @@
         <h1 class="display-4"  >Movies now running</h1>
         <!-- Read Cinemas Table -->
         <table class="table" border="1">
-            <div class="p-3 mb-2 bg-secondary text-white" >
+            <div >
                 <thead> 
                     <tr>
                         <th></th>

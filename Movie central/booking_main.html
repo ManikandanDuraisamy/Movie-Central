@@ -37,10 +37,10 @@
                         const cell2 = document.getElementById('cell2');
                         cell1.innerHTML = '<img src="' 
                                             + schedule.movie_image +'"width="250" class="rounded-3 zoom border border-warning">';
-                        cell2.innerHTML =   '<h2 class="display-6 ">' + schedule.movie_name + 
+                        cell2.innerHTML =   '<h2 class="p-3 mb-2 bg-warning text-dark display-6">' + schedule.movie_name + 
                                             '</h2> <br> <p>' +
                                           '<p>' + schedule.movie_schedule_date + '</p><p>'  + schedule.format + '&nbsp; &nbsp;Version: ' + schedule.language + '</p>' +
-                                          '<p> Subtitle: ' + schedule.subtitles_language + '&nbsp; &nbsp;' + cosy + '</p> <br> <h3 class="display-7">' + schedule.cinema_name + 
+                                          '<p> Subtitle: ' + schedule.subtitles_language + '&nbsp; &nbsp;' + cosy + '</p> <br> <h3 class="p-3 mb-2 bg-warning text-dark display-7">' + schedule.cinema_name + 
                                             '</h3><p >' + 
                                             schedule.cinema_address + '</p>';
                     });

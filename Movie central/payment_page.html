@@ -8,16 +8,15 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://js.stripe.com/v3/"></script>
     <link href="movie_central.css" rel="stylesheet" type="text/css">
+    <style>
+        div.test {display: none;}
+        div.text {display: none;}
+    </style>
     <script src="header_footer.js"></script>
 
     <script>
-        // Function to show schedule details in details page
-        function constructBookingPageURL(scheduleId) {
-                // Construct the URL for the new page with the scheduleId as a query parameter
-                const newPageURL = 'view_ticket.html?scheduleId=' + scheduleId + '';
-                // Navigate to the new page
-                window.location.href = newPageURL;                
-        }
+        
+
 //Retrieve the value of the booking id parameter from the url
 const urlParams = new URLSearchParams(window.location.search);
 const bookingId = urlParams.get('bookingId');
@@ -59,7 +58,7 @@ fetchBookings();
 </head>
 <body>
     <main-header></main-header>
-    <div class="container">
+    <div class="container" id="main-container">
         <h2 class="mt-5 mb-4">Stripe Payment</h2>
             <div id="amountToPay"></div>
         <form id="payment-form">
@@ -96,6 +95,14 @@ fetchBookings();
             <button type="submit" class="btn btn-primary">Confirm Payment</button>
         </form>
     </div>
+    <div class="test" id="box-container" >
+        <div class='boxes box1'></div>
+        <div class='boxes box2'></div>
+        <div class='boxes box3'></div>
+      </div>
+      <div class="text" id="loading-text">
+        <b>Loading...</b>
+      </div>
 
     <!-- Success Modal -->
     <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
@@ -107,7 +114,7 @@ fetchBookings();
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div id="messageToUser" class="modal-body">
                     <p id="successMessage"></p>
                 </div>
             </div>
@@ -146,7 +153,9 @@ fetchBookings();
         var form = document.getElementById('payment-form');
         form.addEventListener('submit', function(event) {
             event.preventDefault();
-
+            document.getElementById('box-container').style.display = 'block';
+            document.getElementById('loading-text').style.display = 'block';
+            document.getElementById('main-container').style.display = 'none';
             stripe.createToken(card, {
                 name: document.getElementById('name').value,
                 address_line1: document.getElementById('address').value,
@@ -160,6 +169,7 @@ fetchBookings();
                 } else {
                     // Display success modal
                     document.getElementById('successMessage').textContent = 'Payment successful! Token: ' + result.token.id;
+                    document.getElementById('messageToUser').innerHTML = '<a href="view_ticket.html?bookingId=' + bookingId + '' +'"> Click here to view your tickets </a>'
                     $('#successModal').modal('show');
                 }
             });

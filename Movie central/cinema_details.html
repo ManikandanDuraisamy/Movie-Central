@@ -12,17 +12,9 @@
     <link href="movie_central.css" rel="stylesheet" type="text/css">
     <script src="header_footer.js"></script>
     <script>
-                // Function to show schedule details in details page
-                function constructBookingPageURL(scheduleId) {
-                // Construct the URL for the new page with the scheduleId as a query parameter
-                const newPageURL = 'booking_main.html?scheduleId=' + scheduleId + '';
-                // Navigate to the new page
-                window.location.href = newPageURL;                
-            }
-
-       //Retrieve the value of the movie id parameter from the url
+        //Retrieve the value of the cinema id parameter from the url
         const urlParams = new URLSearchParams(window.location.search);
-        const movieId = urlParams.get('movieId');
+        const cinemaId = urlParams.get('cinemaId');
 
         // Function to fetch cinemas from the API
         function fetchUsers() {
@@ -33,31 +25,32 @@
                 .then(data => {
                     const schedules = JSON.parse(data.body).items; // we take items in the body. (cfr. payload)
                     const tableBody = document.getElementById('userTableBody');
-                    
+
                     // Clear existing rows
                     tableBody.innerHTML = '';
                     schedules.forEach(schedule => {
-                        if(schedule.movie_id == movieId){
+                        if(schedule.cinema_id == cinemaId){
                         const row1 = document.getElementById('movieImage');
                         const row2 = document.createElement('tr');
-                        row1.innerHTML = '<td> </td> <td width="20%" class="p-3 mb-2 bg-warning text-dark display-6"><img src="' 
-                                            + schedule.movie_image +'"width="250" class="rounded-3 zoom border border-warning"> </td><td class="p-3 mb-2 bg-warning text-dark display-6"> </td>' +
-                                            '<td class="align-middle p-3 mb-2 bg-warning text-dark display-6" width="20%"><h2>' + schedule.movie_name + 
+                        row1.innerHTML = '<td width="25%"><img src="' 
+                                            + schedule.cinema_image +'"width="350" class="rounded-pill zoom border border-warning border-2"> </td>'+
+                                            '<td class="align-middle" width="20%">  <h3 class="p-3 mb-2 bg-warning text-dark display-6">' + schedule.cinema_name + 
+                                            '</h3> <br><p class="h6" >' + 
+                                            schedule.cinema_address + '</p></td><td></td><td> </td><td></td><td></td>' + 
+                                            '<td width="30%">' + schedule.cinema_location + '</td>' ;
+                                        
+                        row2.innerHTML = '<td width="20%" ><img src="' 
+                                            + schedule.movie_image +'"width="300" class="rounded-3 zoom border border-warning"> '+
+                                            '<td  width="20%" ><h2 class="p-3 mb-2 bg-warning text-dark display-6">' + schedule.movie_name + 
                                             '</h2><br><p class="h6">' + 
                                             schedule.genres + '</p> <p class="h6" >' + 
                                             schedule.release_date + '</p><p class="h6" >' + 
-                                            schedule.duration + '</p> <h5> IMDB Score: '+ schedule.imdb_score + '</h5> </td></td><td>  <td> </td><td> </td><td> </td>';
-                                        
-                        row2.innerHTML = '<td width="25%"><img src="' 
-                                            + schedule.cinema_image +'"width="300" class="rounded-pill zoom border border-warning border-2"> </td>'+
-                                         '<td class="align-middle" width="10%">  <h3 class="display-6">' + schedule.cinema_name + 
-                                            '</h3> <br><p class="h6" >' + 
-                                            schedule.cinema_address + '</p></td>' +
-                                            '<td>' + schedule.format + '</td>'+
-                                          '<td>' + schedule.movie_schedule_date + '</td>'  +
+                                            schedule.duration + '</p> <h5> IMDB Score: '+ schedule.imdb_score + '</h5> </td>' +
+                                            '<td>' + schedule.format + '</td>'  +
                                          '<td>' + schedule.language + '</td>' +
                                           '<td>' + schedule.subtitles_language + '</td>' +
-                                        '<td>' + schedule.cosy_seat_option + '</td>' + '<td><a onClick="constructBookingPageURL(\'' + schedule.schedule_id + '\')"> <h5 class="p-3 mb-2 bg-warning text-dark btn btn-primary "> Book Now </h5></a> </td>' ;
+                                        '<td>' + schedule.cosy_seat_option + '</td>' +
+                                          '<td>' + schedule.movie_schedule_date + '</td>';
                                     
                                     tableBody.appendChild(row2);
                         }
@@ -77,7 +70,7 @@
     <div class="container" >
         <h1 class="display-4"  >Our Movie Central Belgium Cinemas</h1>
         <!-- Read Cinemas Table -->
-        <table  border="1" >
+        <table  class="table" border="1" >
             
             <tr>
   
@@ -85,25 +78,20 @@
                     <!-- Table rows will be populated dynamically using JavaScript -->
                 </tbody>              
             </tr>
-            <tr>
-                <th>&nbsp;</th>        
-          </tr>
+           
             
-                <tr class="align-middle p-3 mb-2 bg-warning text-dark" border="1">
-                    <th>Cinema</th>
-                     <th>Address</th>
+                <tr  border="1">
+                    <th>Movie Now Showing</th>
+                     <th>Details</th>
                      <th>Format</th>
-                     <th>Schedule</th>
                      <th>Language</th>
                      <th>Subtitle</th>
                      <th>Cosy Seat</th>
-                     <th></th>
+                     <th>Schedule</th>
                      
               </tr>
               
-              <tr>
-                <th>&nbsp;</th>        
-          </tr>
+             
             <tbody id="userTableBody" class="align-middle">
                 <!-- Table rows will be populated dynamically using JavaScript -->
             </tbody>
