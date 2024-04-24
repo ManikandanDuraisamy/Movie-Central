@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication Page</title>
+    <!-- Bootstrap JS & CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="movie_central.css" rel="stylesheet" type="text/css">
+    <script src="header_footer.js"></script>
+    <style>
+        body {
+            background-color: #d2e0e7;
+        }
+    </style>
+</head>
+<body>
+    <main-header></main-header>
+    <div class="container" style="display: flex; justify-content: center;">
+        <div id="authSection">
+            <h2>Authentication Required</h2>
+            <form id="authForm" onsubmit="authenticate(event)">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required><br><br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br><br>
+                <button type="submit" value="Login" class="btn btn-primary p-3 mb-2 bg-warning text-dark"> <b>Log in</b></button>
+            </form>
+        </div>
+    </div>
+    <p id="message"></p>
+
+    <!-- Conditionally display user management section -->
+    <div id="userManagementSection" style="display: none;">
+        <div class="container">
+            <h1>MC Central Admin - User Management</h1>
+
+            <!-- Read Users Table -->
+            <h2>List of Users</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Last name</th>
+                        <th>First name</th>
+                        <th>Gender</th>
+                        <th>Birthdate</th>
+                        <th>Age</th>
+                        <th>Username</th>
+                        <th>E-mail</th>
+                        <th>Phone number</th>
+                        <th>User points</th>
+                        <th>Delete record</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody">
+                    <!-- Table rows will be populated dynamically using JavaScript -->
+                </tbody>
+            </table>
+            
+            <!-- Create User Form -->
+            <div class="container">
+                <h2>Create New User</h2>
+                <form id="createUserForm" method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="last_name" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="first_name" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="first_name" name="first_name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="gender" class="form-label">Gender</label>
+                                <select class="form-select" id="gender" name="gender">
+                                    <option value="Female">Female</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="birthdate" class="form-label">Birthdate</label>
+                                <input type="date" class="form-control" id="birthdate" name="birthdate" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email_address" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email_address" name="email_address" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone_number" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" id="phone_number" name="phone_number" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="user_points" class="form-label">User Points</label>
+                                <input type="text" class="form-control" id="user_points" name="user_points" required>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary p-3 mb-2 bg-warning text-dark"><b>Create</b></button>
+                </form>
+            </div>
+            <main-footer></main-footer>
+    
+    <script>
+        // Function to fetch users from the API
+        function fetchUsers() {
+            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/users';
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const users = JSON.parse(data.body).items; // we take items in the body. (cfr. payload)
+                    const tableBody = document.getElementById('userTableBody');
+
+                    // Clear existing rows
+                    tableBody.innerHTML = '';
+
+                    // Sort users array by user_id
+                     users.sort((a, b) => a.user_id - b.user_id);
+
+                    // Populate table rows with user data
+					
+						// a line a in table is  <tr>...</tr>
+						// a column in a table is <td>...</td>
+						//
+						// So one line with two columns is : 
+						//	<tr>
+						// 		<td>value 1</td><td>value 2</td>
+						//	</tr>
+					
+                    users.forEach(user => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = '<td>' + user.user_id + '</td>' +
+					'<td>' + user.last_name + '</td>' +
+					'<td>' + user.first_name + '</td>' +
+                    '<td>' + user.gender + '</td>' +
+					'<td>' + user.birthdate + '</td>' +
+                    '<td>' + user.age + '</td>' +
+                    '<td>' + user.username + '</td>' +
+                    '<td>' + user.email_address + '</td>' +
+					'<td>' + user.phone_number + '</td>' +
+					'<td>' + user.user_points + '</td>' +
+                    // Delete Button
+                    '<td> <button data-id="' + user.user_id +'" onclick="deleteUser(this)" type="button" class="btn btn-outline-danger">Delete</button></td>'
+
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Unable to fetch users. Error:', error);
+                });
+        }
+        
+        // Function to create a new user using the API
+        function createUser(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const last_name = form.last_name.value;
+            const first_name = form.first_name.value;
+            const gender = form.gender.value;
+            const birthdate = form.birthdate.value;
+            const username = form.username.value;
+            const email_address = form.email_address.value;
+            const phone_number = form.phone_number.value;
+            const user_points = form.user_points.value;
+            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/users';
+
+            const newUser = {
+                last_name: last_name,
+                first_name: first_name,
+                gender: gender,
+                birthdate: birthdate,
+                username: username,
+                email_address: email_address,
+                phone_number: phone_number,
+                user_points: user_points
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newUser)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('User created successfully:', data);
+                    // Refresh the user table to display the newly created user, by calling the fetchUsers() function :-)
+                    fetchUsers();
+                    // Reset the form
+                    form.reset();
+                })
+                .catch(error => {
+                    console.error('Unable to create user. Error:', error);
+                });
+        }
+
+
+        //function to delete Users
+        function deleteUser(element){
+            console.log(element.getAttribute("data-id"))
+            const user_id = element.getAttribute("data-id");
+            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/users';
+                
+            const deleteUser = {
+                user_id : user_id
+            }
+                
+                fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(deleteUser)
+                })
+                .then(response => {
+                        console.log(response);
+                        response.json()
+                    })
+                .then(data => {
+                    console.log('User deleted successfully:', data);
+                    // Refresh to display the table without the deleted order, by calling the fetchUsers() function
+                    fetchUsers();
+                    // Reset the form
+                    form.reset();
+                    //Refresh webpage
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Unable to delete User. Error:', error);
+                });
+            }
+
+        // Add event listener to the form submit event
+	// when we click on submit, we trig the createUser() function
+        document.getElementById('createUserForm').addEventListener('submit', createUser);
+        
+        var key; // Déclarer la variable key globalement
+
+        // Function to set a cookie
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        // Function to get a cookie
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        // Function to delete a cookie
+        function eraseCookie(name) {   
+            document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        }
+
+        // Function to handle authentication
+        function authenticate(event) {
+            event.preventDefault(); // Prevent form submission
+            
+            // Retrieve username and password from form
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            // Encode key for authentication
+            key = btoa(username + ':' + password);
+
+            // Make GET request to API endpoint only if not already authenticated
+            if (!getCookie('authenticated')) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/admins', true);
+                xhr.setRequestHeader('Authorization', 'Basic ' + key);
+
+                xhr.onload = function() {
+                    if (xhr.status == 200) {
+                        setCookie('authenticated', key, 1);
+                        updateUI(true);
+                        fetchUsers(); // Call the fetchUsers function after successful authentication
+                    } else {
+                        updateUI(false);
+                    }
+                };
+
+                xhr.onerror = function() {
+                    updateUI(false);
+                };
+
+                xhr.send();
+            }
+        }
+
+
+        // Function to handle UI update
+        function updateUI(authenticated) {
+            if (authenticated) {
+                document.getElementById('authSection').innerHTML = '<p>You are logged in. <a href="#" onclick="logout()">Logout</a></p>';
+                document.getElementById('message').textContent = '';
+              	document.getElementById('userManagementSection').style.display = 'block'; // Show user management section
+            } else {
+                document.getElementById('message').textContent = 'Unauthorized access';
+            }
+        }
+
+        // Function to handle logout
+        function logout() {
+            eraseCookie('authenticated');
+            location.reload();
+        }
+
+        // Check if user is already authenticated on page load
+        window.onload = function() {
+            if (getCookie('authenticated')) {
+                updateUI(true);
+            }
+        }
+        
+        fetchUsers()
+    </script>
+</body>
+</html>

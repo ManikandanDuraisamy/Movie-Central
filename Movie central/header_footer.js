@@ -3,42 +3,41 @@ class Header extends HTMLElement {
       this.innerHTML = `
       <div class="sticky-top">
       <header>
-      <img src="https://group01moviecinema.s3.eu-central-1.amazonaws.com/header_footer_images/Header+1.jpg" class="card-img" height="200px" alt="header">
+      <img src="https://group01moviecinema.s3.eu-central-1.amazonaws.com/header_footer_images/Header+3.jpg" class="card-img" height="180px" alt="header">
       <div class="card-img-overlay">
-      
-      
+            
+    
+      <br>
+      <br>
       <img src="https://group01moviecinema.s3.eu-central-1.amazonaws.com/header_footer_images/Movie+Central+1.JPG" width="100px" height="80px"  alt="Movie Central">
-      <br>
-      <br>
-      <br>
-      <br>
+
       <nav class="navbar navbar-expand-lg bg-body-tertiary" >
               <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="navbarScroll">
                   <ul class="navbar-nav me-auto my-1 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                       <li class="nav-item">
-                          <a class="nav-link" href="">Home</a>
+                          <a class="nav-link" href="index.html">Home</a>
                       </li>
                       <li class="nav-item">
-                          <a class="nav-link" href="cinemas_main.html">Cinemas</a>
+                          <a class="nav-link" href="user_cinemas.html">Cinemas</a>
                       </li>
                       <li class="nav-item">
-                          <a class="nav-link" href="movies_main.html">Movies</a>
+                          <a class="nav-link" href="user_movies.html">Movies</a>
                       </li>
                       <li class="nav-item">
-                          <a class="nav-link" href="reviews_main.html">Reviews</a>
+                          <a class="nav-link" href="user_reviews.html">Reviews</a>
                       </li>
                       <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       Administrator
                       </a>
                       <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="movies_page.html">Movies</a></li>
-                        <li><a class="dropdown-item" href="cinemas_page.html">Cinemas</a></li>
-                        <li><a class="dropdown-item" href="Schedules_page.html">Schedule</a></li>
-                        <li><a class="dropdown-item" href="users_page(get%26post)-2.html">User</a></li>
-                        <li><a class="dropdown-item" href="reviews_page-2.html">Review</a></li>
-                        <li><a class="dropdown-item" href="bookings_page.html">Booking</a></li>
+                        <li><a class="dropdown-item" href="admin_movies.html">Movies</a></li>
+                        <li><a class="dropdown-item" href="admin_bookings.html">Bookings</a></li>
+                        <li><a class="dropdown-item" href="admin_cinemas.html">Cinemas</a></li>
+                        <li><a class="dropdown-item" href="admin_schedules.html">Schedules</a></li>
+                        <li><a class="dropdown-item" href="admin_users.html">Users</a></li>
+                        <li><a class="dropdown-item" href="admin_reviews.html">Reviews</a></li>
                       </ul>
                     </li>
                   </ul>
@@ -65,11 +64,11 @@ class Header extends HTMLElement {
           <footer>
           <p>&copy; 2024 Movie Central. All rights reserved.</p>
           <div class="card text-bg-dark">
-              <img src="https://group01moviecinema.s3.eu-central-1.amazonaws.com/header_footer_images/Header+1.jpg" class="card-img" height="200px" alt="footer">
+              <img src="https://group01moviecinema.s3.eu-central-1.amazonaws.com/header_footer_images/Header+3.jpg" class="card-img" height="200px" alt="footer">
               <div class="card-img-overlay">
                 <figure class="blockquote">
                 <blockquote class="blockquote">
-                  <p>Contact Us @ moviecentral@gmail.com</p>
+                  <p>Contact Us @ customercare@moviecentral.be</p>
                 </blockquote>
               </figure> 
                

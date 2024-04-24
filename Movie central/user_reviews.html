@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>reviews</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <!--metatags from startertemplate in bootstrap-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Reviews</title>
+
+    <!-- Bootstrap JS & CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="header_footer.js"></script> 
+    <link href="movie_central.css" rel="stylesheet" type="text/css">
+    <style>
+        .display-4 {
+    font-size: 2.5rem; /* Adjust the font size as needed */
+    font-weight: bold; /* Make the text bold */
+}
+.container h2 {
+    font-weight: bold;
+}
+
+
+      .carousel-item {
+            height: auto; /* Auto height for dynamic content */
+        }
+
+        .carousel-image-container {
+            text-align: center; /* Center align the image */
+        }
+
+         .carousel-image-container img {
+    max-width: 100%;  /* Set a maximum width to maintain aspect ratio */
+    max-height: 500px;  /* Set a maximum height to maintain aspect ratio */
+    width: auto; /* Automatically adjust width based on the maximum height */
+    height: auto; /* Automatically adjust height based on the maximum width */
+}
+
+
+
+        .carousel-inner {
+            display: flex; /* Make the carousel items align horizontally */
+        }
+
+        .carousel-item {
+            flex: 0 0 auto; /* Prevent items from shrinking */
+        }
+    </style>
+ 
+    <script>
+        // Function to fetch users from the API
+        function fetchUsers() {
+            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/users';
+
+            return fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    return JSON.parse(data.body).items; // Extract the "items" array
+                })
+                .catch(error => {
+                    console.error('Unable to fetch users. Error:', error);
+                    return []; // Return an empty array in case of an error
+                });
+        }
+
+        // Function to fetch reviews from the API
+        function fetchReviews() {
+            const reviewsUrl = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/reviews';
+
+            // Fetch reviews
+            fetch(reviewsUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const reviews = JSON.parse(data.body).items; // Extract reviews from the API response body
+
+                    // Create an object to store reviews grouped by movie name
+                    const reviewsByMovie = {};
+
+                    // Group reviews by movie name
+                    reviews.forEach(review => {
+                        if (!reviewsByMovie.hasOwnProperty(review.movie_name)) {
+                            reviewsByMovie[review.movie_name] = [];
+                        }
+                        reviewsByMovie[review.movie_name].push(review);
+                    });
+
+                    // Get the carousel inner element
+                    const carouselInner = document.getElementById('carouselInner');
+
+                    // Clear existing carousel content
+                    carouselInner.innerHTML = '';
+
+                    // Iterate through grouped reviews and create carousel items
+                    Object.entries(reviewsByMovie).forEach(([movieName, reviews]) => {
+                        // Create a carousel item for the movie
+                        const carouselItem = document.createElement('div');
+                        carouselItem.className = 'carousel-item';
+
+                        // Create a container for reviews
+                        const reviewContainer = document.createElement('div');
+                        reviewContainer.className = 'container';
+                        const movieImage = reviews[0].movie_image;
+                        const movieTitle = movieName;
+                        const carouselImage = document.createElement('img');
+                        carouselImage.src = movieImage;
+                        carouselImage.className = 'd-block w-80 mx-auto'; // Center align the image
+                        carouselImage.alt = movieTitle;
+                        const imageContainer = document.createElement('div');
+                        imageContainer.className = 'carousel-image-container';
+                        imageContainer.appendChild(carouselImage);
+                        reviewContainer.appendChild(imageContainer);
+
+                        reviews.forEach(review => {
+                            const reviewContent = document.createElement('div');
+                            reviewContent.className = 'card';
+                            reviewContent.innerHTML = `
+                                <div class="card-body">
+                                    <h5 class="card-title">${review.username}</h5>
+                                    <p class="card-text">Rating: ${review.user_rating}</p>
+                                    <p class="card-text">Review: ${review.user_review}</p>
+                                    <p class="card-text">Date: ${review.review_date}</p>
+                                    <p class="card-text">Certified: ${review.certified ? 
+                                        '<span style="color:blue">&#10004;</span>' : '<span style="color:red">&#10008;</span>'}</p>
+        </div>
+                            `;
+                            reviewContainer.appendChild(reviewContent);
+                        });
+
+                        // Append the review container to the carousel item
+                        carouselItem.appendChild(reviewContainer);
+
+                        // Append the carousel item to the carousel inner
+                        carouselInner.appendChild(carouselItem);
+                    });
+
+                    // Set the first carousel item as active
+                    carouselInner.firstChild.classList.add('active');
+                })
+                .catch(error => {
+                    console.error('Unable to fetch reviews. Error:', error);
+                });
+        }
+
+        // Fetch reviews when the page loads
+        fetchReviews();     
+
+        // Fetch users and populate the username in the form
+        fetchUsers().then(users => {
+            const selectElement = document.getElementById('user_id');
+
+            // Clear existing options
+            selectElement.innerHTML = '';
+
+            // Populate dropdown options with usernames
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.user_id;
+                option.textContent = user.username;
+                selectElement.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Unable to fetch users. Error:', error);
+        });
+
+        // Function to fetch movies from the API
+        function fetchMovies() {
+            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/movies';
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const movies = JSON.parse(data.body).items; // Extract the "items" array
+                    const selectElement = document.getElementById('movie_id');
+
+                    // Clear existing options
+                    selectElement.innerHTML = '';
+
+                    // Populate dropdown options with movienames
+                    movies.forEach(movie => {
+                        const option = document.createElement('option');
+                        option.value = movie.movie_id;
+                        option.textContent = movie.movie_name;
+                        selectElement.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Unable to fetch movie names. Error:', error);
+                });
+        }
+     
+        // Call fetchMovienames to populate the movieName dropdown
+        fetchMovies(); 
+
+        // Function to create a new review using the API
+        function createReview(event){
+            event.preventDefault();
+            const form = event.target;
+            const movie_id = form.movie_id.value;
+            const user_rating = form.user_rating.value;
+            const user_review = form.user_review.value;
+            const user_id = form.user_id.value; // Added username
+            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/reviews';
+            const newReview = {
+                movie_id: movie_id,
+                user_rating: user_rating,
+                user_review: user_review,
+                user_id: user_id // Added username
+            };
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newReview)
+            })
+            .then(response => response.json())
+                .then(data => {
+                    alert('Review submitted successfully!');
+                    // Clear the form after successful submission
+                    form.reset();
+                })
+                .catch(error => {
+                    console.error('Unable to submit review. Error:', error);
+                    alert('An error occurred while submitting the review. Please try again later.');
+                });
+        }
+
+    </script>
+</head>
+<body>
+    <main-header></main-header>
+    <div class="container">
+        <h1 class="display-5">Latest Reviews</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Reviews Carousel -->
+               <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="500"> <!-- Adjust the interval as needed -->
+    <div class="carousel-inner" id="carouselInner">
+                    <!-- Carousel items will be populated dynamically using JavaScript -->
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="container">
+                <h2>Write a Review</h2>
+                    <form id="writeReviewForm" onsubmit="createReview(event)">
+                        <div class="mb-3">
+    <label for="movie_id" class="form-label">Movie Name</label>
+    <select class="form-select" id="movie_id" name="movie_id" required>
+        <!-- Dropdown options will be populated dynamically using JavaScript -->
+    </select>
+</div>
+<div class="mb-3">
+    <label for="user_id" class="form-label">Your Username</label> <!-- Added username field -->
+    <select class="form-select" id="user_id" name="user_id" required>
+        <!-- Dropdown options will be populated dynamically using JavaScript -->
+    </select>
+</div>
+<div class="mb-3">
+    <label for="user_rating" class="form-label">Choose Your Rating</label>
+    <select class="form-select" id="user_rating" name="user_rating" required>
+        <option value="1">1 Star</option>
+        <option value="2">2 Stars</option>
+        <option value="3">3 Stars</option>
+        <option value="4">4 Stars</option>
+        <option value="5">5 Stars</option>
+        <option value="6">6 Star</option>
+        <option value="7">7 Stars</option>
+        <option value="8">8 Stars</option>
+        <option value="9">9 Stars</option>
+        <option value="10">10 Stars</option>
+    </select>
+</div>
+<div class="mb-3">
+    <label for="user_review" class="form-label">Write Your Review</label>
+    <textarea class="form-control" id="user_review" name="user_review" rows="3" required></textarea>
+</div>
+
+<button type="submit" class="btn btn-primary">Submit Your Review</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <main-footer></main-footer>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>

@@ -17,6 +17,12 @@ tr:hover {
     transition: transform 1s;
 }
 
+body {
+  background-image: url("image.png");
+  background-color: #cccccc;
+}
+
+
 @import "compass/css3";
 
 *, 
@@ -33,7 +39,7 @@ html, body {
 
 h1 {
    text-align: center;
-   color: #1d00fa;
+   color: #000000;
    @include text-shadow(1px 1px 0 rgba(white, 1));
 }
 
@@ -123,15 +129,14 @@ body{
 .text{
   width: 100%;
   text-align: center;
-  color: rgba(35, 2, 250, 0.897);
+  color: rgb(0, 0, 0);
   font-size: 20px;
-  font-family: 'Ubuntu', sans-serif;
   letter-spacing: 1px;
 }
 .boxes{
   width: 50px;
   height: 50px;
-  background: rgb(51, 0, 255);
+  background: rgb(250, 213, 2);
   position: relative;
 }
 .box1{

@@ -9,11 +9,14 @@
 
 
 
+
+
+
         {
             "type": "chrome",
             "request": "launch",
             "name": "Open movies_page.html",
-            "file": "/Users/manikandan/Workspace/Movie-Central/Movie central/payment_page.html"
+            "file": "/Users/manikandan/Workspace/Movie-Central/Movie central/movies_admin.html"
         }
     ]
 }

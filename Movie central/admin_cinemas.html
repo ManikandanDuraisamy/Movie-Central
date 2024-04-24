@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication Page</title>
+    <!-- Bootstrap JS & CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="movie_central.css" rel="stylesheet" type="text/css">
+    <script src="header_footer.js"></script>
+    <style>
+        body {
+            background-color: #d2e0e7;
+        }
+    </style>
+</head>
+
+<body>
+    <main-header></main-header>
+	<div class="container" style="display: flex; justify-content: center;">
+        <div id="authSection">
+            <h2>Authentication Required</h2>
+            <form id="authForm" onsubmit="authenticate(event)">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required><br><br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br><br>
+                <button type="submit" value="Login" class="btn btn-primary p-3 mb-2 bg-warning text-dark"> <b>Log in</b></button>
+            </form>
+        </div>
+    </div>
+    <p id="message"></p>
+    
+     <!-- Conditionally display Cinemas section -->
+    <div id="cinemasManagementSection" style="display: none;">
+        <div class="container">
+            <h1>MC Central Admin - Cinemas Management</h1>
+
+        <!-- Read Cinemas Table -->
+        <h2>List of Cinemas</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Cinema ID</th>
+                    <th>Cinema Name</th>
+                    <th>Cinema Address</th>
+                    <th>Cinema Image</th>
+                    <th>Cinema Location</th>
+                    <th>Delete Record</th>
+                </tr>
+            </thead>
+            <tbody id="cinemaTableBody">
+                <!-- Table rows will be populated dynamically using JavaScript -->
+            </tbody>
+        </table>
+
+        <div class="container">
+            <h2>Add a Cinema</h2>
+            <form id="createCinemaForm" method="post">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="cinema_name" class="form-label">Cinema Name</label>
+                            <input type="text" class="form-control" id="cinema_name" name="cinema_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cinema_address" class="form-label">Cinema Address</label>
+                            <input type="text" class="form-control" id="cinema_address" name="cinema_address" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="cinema_image" class="form-label">Cinema Image</label>
+                            <input type="text" class="form-control" id="cinema_image" name="cinema_image" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cinema_location" class="form-label">Cinema Location</label>
+                            <input type="text" class="form-control" id="cinema_location" name="cinema_location" required>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary p-3 mb-2 bg-warning text-dark"><b>Create</b></button>
+            </form>
+        </div>
+        <main-footer></main-footer>
+    
+    <script>
+        // Function to fetch cinemas from the API
+        function fetchCinemas() {
+            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/cinemas';
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const cinemas = JSON.parse(data.body).items; // we take items in the body. (cfr. payload)
+                    const tableBody = document.getElementById('cinemaTableBody');
+                    
+                    // Clear existing rows
+                    tableBody.innerHTML = '';
+                    
+                    // Sort cinemas array by cinema_id
+                     cinemas.sort((a, b) => a.cinema_id - b.cinema_id);
+                     
+                     // Populate table rows with cinemas data
+					
+						// a line a in table is  <tr>...</tr>
+						// a column in a table is <td>...</td>
+						//
+						// So one line with two columns is : 
+						//	<tr>
+						// 		<td>value 1</td><td>value 2</td>
+						//	</tr>
+                        
+                    cinemas.forEach(cinema => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = '<td>' + cinema.cinema_id + '</td>' +
+                                        '<td>' + cinema.cinema_name + '</td>' +
+                                        '<td>' + cinema.cinema_address + '</td>' +
+                                        '<td><img src="' + cinema.cinema_image + '" alt="' + cinema.cinema_name + '" style="max-width: 300px;"></td>' + // Display image systematically
+                                        '<td>' + cinema.cinema_location + '</td>' +
+                                       // Delete Button
+                   						'<td> <button data-id="' + cinema.cinema_id +'" onclick="deleteCinema(this)" type="button" class="btn btn-outline-danger">Delete</button></td>' ;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Unable to fetch cinemas. Error:', error);
+                });
+        }
+
+        // Function to add a new cinema using the API
+        function createCinema(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const cinema_name = form.cinema_name.value;         
+            const cinema_address = form.cinema_address.value;
+            const cinema_image = form.cinema_image.value;
+            const cinema_location = form.cinema_location.value;         
+            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/cinemas';
+
+            const newCinema = {
+                cinema_name: cinema_name,
+                cinema_address: cinema_address,
+                cinema_image: cinema_image,
+                cinema_location: cinema_location
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newCinema)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Cinema added successfully:', data);
+                    // Refresh the cinema table to display the newly added cinema, by calling the fetchCinemas() function :-)
+                    fetchCinemas();
+                    // Reset the form
+                    form.reset();
+                })
+                .catch(error => {
+                    console.error('Unable to add a new cinema. Error:', error);
+                });
+        }
+
+        //function to delete Cinemas
+        function deleteCinema(element){
+            console.log(element.getAttribute("data-id"))
+            const cinema_id = element.getAttribute("data-id");
+            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/cinemas';
+                
+            const deleteCinema = {
+                cinema_id : cinema_id
+            }
+                
+                fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(deleteCinema)
+                })
+                .then(response => {
+                        console.log(response);
+                        response.json()
+                    })
+                .then(data => {
+                    console.log('Cinema deleted successfully:', data);
+                    // Refresh to display the table without the deleted order, by calling the fetchCinemas() function
+                    fetchCinemas();
+                    // Reset the form
+                    form.reset();
+                    //Refresh webpage
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Unable to delete Cinema. Error:', error);
+                });
+            }
+
+        // Add event listener to the form submit event
+	// when we click on submit, we trig the createCinema() function
+        document.getElementById('createCinemaForm').addEventListener('submit', createCinema);
+        
+        var key; // Déclarer la variable key globalement
+
+        // Function to set a cookie
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        // Function to get a cookie
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        // Function to delete a cookie
+        function eraseCookie(name) {   
+            document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        }
+
+        // Function to handle authentication
+        function authenticate(event) {
+            event.preventDefault(); // Prevent form submission
+            
+            // Retrieve username and password from form
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            // Encode key for authentication
+            key = btoa(username + ':' + password);
+
+            // Make GET request to API endpoint only if not already authenticated
+            if (!getCookie('authenticated')) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/admins', true);
+                xhr.setRequestHeader('Authorization', 'Basic ' + key);
+
+                xhr.onload = function() {
+                    if (xhr.status == 200) {
+                        setCookie('authenticated', key, 1);
+                        updateUI(true);
+                        fetchCinemas(); // Call the fetchCinemas function after successful authentication
+                    } else {
+                        updateUI(false);
+                    }
+                };
+
+                xhr.onerror = function() {
+                    updateUI(false);
+                };
+
+                xhr.send();
+            }
+        }
+
+
+        // Function to handle UI update
+        function updateUI(authenticated) {
+            if (authenticated) {
+                document.getElementById('authSection').innerHTML = '<p>You are logged in. <a href="#" onclick="logout()">Logout</a></p>';
+                document.getElementById('message').textContent = '';
+              	document.getElementById('cinemasManagementSection').style.display = 'block'; // Show cinema management section
+            } else {
+                document.getElementById('message').textContent = 'Unauthorized access';
+            }
+        }
+
+        // Function to handle logout
+        function logout() {
+            eraseCookie('authenticated');
+            location.reload();
+        }
+
+        // Check if user is already authenticated on page load
+        window.onload = function() {
+            if (getCookie('authenticated')) {
+                updateUI(true);
+            }
+        }
+
+        fetchCinemas()
+    </script>
+</body>
+</html>

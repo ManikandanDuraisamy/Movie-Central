@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication Page</title>
+    <!-- Bootstrap JS & CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="movie_central.css" rel="stylesheet" type="text/css">
+    <script src="header_footer.js"></script>
+    <style>
+        body {
+            background-color: #d2e0e7;
+        }
+    </style>
+    
+</head>
+<body>
+    <main-header></main-header>
+	<div class="container" style="display: flex; justify-content: center;">
+        <div id="authSection">
+            <h2>Authentication Required</h2>
+            <form id="authForm" onsubmit="authenticate(event)">
+                <label for="username">Username:</label>
+                
+                <input type="text" id="username" name="username" required><br><br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br><br>
+                <button type="submit" value="Login" class="btn btn-primary p-3 mb-2 bg-warning text-dark"> <b>Log in</b></button>
+            </form>
+        </div>
+    </div>
+    <p id="message"></p>
+    
+     <!-- Conditionally display Movies section -->
+    <div id="movieManagementSection" style="display: none;">
+        <div class="container">
+            <h1>MC Central Admin - Movie Management</h1>
+            
+        <!-- Read Movies Table -->
+        <h2>List of Movies</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Duration</th>
+                    <th>Genres</th>
+                    <th>IMDB Score</th>
+                    <th>Movie Name</th>
+                    <th>Release Date</th>
+                    <th>Movie Image</th>
+                    <th>Delete Record</th>
+                </tr>
+            </thead>
+            <tbody id="moviesTableBody">
+                <!-- Table rows will be populated dynamically using JavaScript -->
+            </tbody>
+        </table>
+
+        <div class="container">
+            <!-- Add Movie Form -->
+            <h2>Add a Movie</h2>
+            <form id="createMovieForm" method="post">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="movie_name" class="form-label">Movie Name</label>
+                            <input type="text" class="form-control" id="movie_name" name="movie_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="duration" class="form-label">Duration</label>
+                            <input type="text" class="form-control" id="duration" name="duration" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="genres" class="form-label">Genres</label>
+                            <input type="text" class="form-control" id="genres" name="genres" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="movie_trailer" class="form-label">Movie Trailer</label>
+                            <input type="text" class="form-control" id="movie_trailer" name="movie_trailer" required>
+                        </div> 
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="release_date" class="form-label">Release Date</label>
+                            <input type="date" class="form-control" id="release_date" name="release_date" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="imdb_score" class="form-label">IMDB Score</label>
+                            <input type="text" class="form-control" id="imdb_score" name="imdb_score" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="movie_image" class="form-label">Movie Image</label>
+                            <input type="text" class="form-control" id="movie_image" name="movie_image" required>
+                        </div> 
+                    </div>                                                
+                </div>
+                <button type="submit" class="btn btn-primary p-3 mb-2 bg-warning text-dark"><b>Create</b></button>
+            </form>
+        </div>
+        <main-footer></main-footer>
+    
+    <script>
+        // Function to fetch movies from the API
+        function fetchMovies() {
+            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/movies';
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const movies = JSON.parse(data.body).items; // we take items in the body. (cfr. payload)
+                    const tableBody = document.getElementById('moviesTableBody');
+
+                    // Clear existing rows
+                    tableBody.innerHTML = '';
+
+                    // Sort movies array by movie_id
+                     movies.sort((a, b) => a.movie_id - b.movie_id);
+                     
+                    // Populate table rows with movie data
+					
+						// a line a in table is  <tr>...</tr>
+						// a column in a table is <td>...</td>
+						//
+						// So one line with two columns is : 
+						//	<tr>
+						// 		<td>value 1</td><td>value 2</td>
+						//	</tr>
+					
+                    movies.forEach(movie => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = '<td>' + movie.movie_id + '</td>' +
+					                    '<td>' + movie.duration+ '</td>' +
+					                    '<td>' + movie.genres+ '</td>' +
+                                        '<td>' + movie.imdb_score+ '</td>' +
+                                        '<td>' + movie.movie_name+ '</td>' +
+					                    '<td>' + movie.release_date+ '</td>'+
+                                        '<td><img src="' + movie.movie_image + '" alt="' + movie.movie_image + '" style="max-width: 100px;"></td>' + // Display image systematically
+                                                                				// Delete Button
+                   						'<td> <button data-id="' + movie.movie_id +'" onclick="deleteMovie(this)" type="button" class="btn btn-outline-danger">Delete</button></td>'
+
+                      tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Unable to fetch movies. Error:', error);
+                });
+        }
+        // Function to create a new movie using the API
+        function createMovie(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const movie_name = form.movie_name.value;
+            const release_date = form.release_date.value;
+            const duration = form.duration.value;
+            const genres = form.genres.value;
+            const imdb_score = form.imdb_score.value;
+            const movie_image = form.movie_image.value;
+            const movie_trailer = form.movie_trailer.value;
+            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/movies';
+
+            const newMovie = {
+                movie_name : movie_name,
+                release_date : release_date,
+                duration : duration,
+                genres : genres,
+                imdb_score : imdb_score,
+                movie_image : movie_image,
+                movie_trailer : movie_trailer
+            };
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newMovie)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Movie added successfully:', data);
+                    // Refresh the movie table to display the newly added movie, by calling the fetchMovies() function :-)
+                    fetchMovies();
+                    // Reset the form
+                    form.reset();
+                })
+                .catch(error => {
+                    console.error('Unable to add a new movie. Error:', error);
+                });
+        }
+
+
+        //function to delete Movies
+        function deleteMovie(element){
+            console.log(element.getAttribute("data-id"))
+            const movie_id = element.getAttribute("data-id");
+            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/movies';
+                
+            const deleteMovie = {
+                movie_id : movie_id
+            }
+                
+                fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(deleteMovie)
+                })
+                .then(response => {
+                        console.log(response);
+                        response.json()
+                    })
+                .then(data => {
+                    console.log('Movie deleted successfully:', data);
+                    // Refresh to display the table without the deleted order, by calling the fetchMovies() function
+                    fetchMovies();
+                    // Reset the form
+                    form.reset();
+                    //Refresh webpage
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Unable to delete Movie. Error:', error);
+                });
+            }
+
+        // Add event listener to the form submit event
+	// when we click on submit, we trig the createMovie() function
+        document.getElementById('createMovieForm').addEventListener('submit', createMovie);
+        
+        var key; // Déclarer la variable key globalement
+
+        // Function to set a cookie
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        // Function to get a cookie
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        // Function to delete a cookie
+        function eraseCookie(name) {   
+            document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        }
+
+        // Function to handle authentication
+        function authenticate(event) {
+            event.preventDefault(); // Prevent form submission
+            
+            // Retrieve username and password from form
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            // Encode key for authentication
+            key = btoa(username + ':' + password);
+
+            // Make GET request to API endpoint only if not already authenticated
+            if (!getCookie('authenticated')) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/admins', true);
+                xhr.setRequestHeader('Authorization', 'Basic ' + key);
+
+                xhr.onload = function() {
+                    if (xhr.status == 200) {
+                        setCookie('authenticated', key, 1);
+                        updateUI(true);
+                        fetchMovies(); // Call the fetchMovies function after successful authentication
+                    } else {
+                        updateUI(false);
+                    }
+                };
+
+                xhr.onerror = function() {
+                    updateUI(false);
+                };
+
+                xhr.send();
+            }
+        }
+
+
+        // Function to handle UI update
+        function updateUI(authenticated) {
+            if (authenticated) {
+                document.getElementById('authSection').innerHTML = '<p>You are logged in. <a href="#" onclick="logout()">Logout</a></p>';
+                document.getElementById('message').textContent = '';
+              	document.getElementById('movieManagementSection').style.display = 'block'; // Show movie management section
+            } else {
+                document.getElementById('message').textContent = 'Unauthorized access';
+            }
+        }
+
+        // Function to handle logout
+        function logout() {
+            eraseCookie('authenticated');
+            location.reload();
+        }
+
+        // Check if user is already authenticated on page load
+        window.onload = function() {
+            if (getCookie('authenticated')) {
+                updateUI(true);
+            }
+        }
+        fetchMovies()
+    </script>
+</body>
+</html>
+

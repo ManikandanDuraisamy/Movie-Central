@@ -10,8 +10,9 @@
     <script src="https://js.stripe.com/v3/"></script>
     <link href="movie_central.css" rel="stylesheet" type="text/css">
     <style>
-        div.test {display: none;}
+        div.loading_boxes {display: none;}
         div.text {display: none;}
+        
     </style>
     
     <script>
@@ -20,6 +21,7 @@
 //Retrieve the value of the booking id parameter from the url
 const urlParams = new URLSearchParams(window.location.search);
 const bookingId = urlParams.get('bookingId');
+const quantity = urlParams.get('quantity');
 
 // Function to fetch cinemas from the API
 function fetchBookings() {
@@ -31,7 +33,7 @@ function fetchBookings() {
             const bookings = JSON.parse(data.body).items; // we take items in the body. (cfr. payload)
             bookings.forEach(booking => {
                 if(booking.booking_id == bookingId){
-                    document.getElementById("amountToPay").innerHTML = '<p class="btn btn-warning"> Amount to Pay: €' + booking.price+ '</p>'
+                    document.getElementById("amountToPay").innerHTML = '<p class="btn btn-warning"> Amount to Pay: €' + (quantity * booking.price).toFixed(2);+ '</p>'
                 }
             });
         })
@@ -95,13 +97,13 @@ fetchBookings();
             <button type="submit" class="btn btn-warning">Confirm Payment</button>
         </form>
     </div>
-    <div class="test" id="box-container" >
+    <div class="loading_boxes" id="box-container" >
         <div class='boxes box1'></div>
         <div class='boxes box2'></div>
         <div class='boxes box3'></div>
       </div>
       <div class="text" id="loading-text">
-        <b>Loading...</b>
+        <b>Please wait while the payment is in progress...</b>
       </div>
 
     <!-- Success Modal -->
@@ -126,7 +128,7 @@ fetchBookings();
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header modal-header-failure">
-                    <h5 class="modal-title" id="failureModalLabel">Payment Failed</h5>
+                    <h5 class="modal-title" id="failureModalLabel">Payment is not successful. Please try again!</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -166,11 +168,13 @@ fetchBookings();
                     // Display failure modal
                     document.getElementById('failureMessage').textContent = result.error.message;
                     $('#failureModal').modal('show');
+                    document.getElementById('box-container').style.display = 'none';
+                    document.getElementById('loading-text').style.display = 'none';
+                    document.getElementById('main-container').style.display = 'block';
                 } else {
                     // Display success modal
                     document.getElementById('successMessage').textContent = 'Payment successful! Token: ' + result.token.id;
-                    document.getElementById('messageToUser').innerHTML = '<a href="view_ticket.html?bookingId=' + bookingId + '' +'"> Click here to view your tickets </a>'
-                    $('#successModal').modal('show');
+                    window.location.href = 'view_ticket.html?bookingId=' + bookingId + '';
                 }
             });
         });

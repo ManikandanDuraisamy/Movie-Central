@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication Page</title>
+    <!-- Bootstrap JS & CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="movie_central.css" rel="stylesheet" type="text/css">
+    <script src="header_footer.js"></script>
+    <style>
+        body {
+            background-color: #d2e0e7;
+        }
+    </style>
+</head>
+<body>
+    <main-header></main-header>
+    <div class="container" style="display: flex; justify-content: center;">
+        <div id="authSection">
+            <h2>Authentication Required</h2>
+            <form id="authForm" onsubmit="authenticate(event)">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required><br><br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br><br>
+                <button type="submit" value="Login" class="btn btn-primary p-3 mb-2 bg-warning text-dark"> <b>Log in</b></button>
+            </form>
+        </div>
+    </div>
+    <p id="message"></p>
+
+    <!-- Conditionally display review management section -->
+    <div id="reviewManagementSection" style="display: none;">
+        <div class="container">
+            <h1>MC Central Admin - Review Management</h1>
+
+            <!-- Read Reviews Table -->
+            <h2>Movies' Reviews</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Reviews ID</th>
+                        <th>User ID</th>
+                        <th>Movie ID</th>
+                        <th>Certified</th>
+                        <th>Review</th>
+                        <th>Date of review</th>
+                        <th>User rating</th>
+                        <th>Delete record</th>
+                    </tr>
+                </thead>
+                <tbody id="reviewTableBody">
+                    <!-- Table rows will be populated dynamically using JavaScript -->
+                </tbody>
+            </table>
+            
+            <!-- Create Review Form -->
+            <div class="container">
+                <h2>Create New Review</h2>
+                <form id="createReviewForm" method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="user_id" class="form-label">User ID</label>
+                                <input type="text" class="form-control" id="user_id" name="user_id" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="movie_id" class="form-label">Movie ID</label>
+                                <input type="text" class="form-control" id="movie_id" name="movie_id" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="certified" class="form-label">Certified</label>
+                                <select class="form-select" id="certified" name="certified">
+                                    <option value="true">True</option>
+                                    <option value="false">False</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="user_review" class="form-label">Review</label>
+                                <input type="text" class="form-control" id="user_review" name="user_review" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="user_rating" class="form-label">User rating</label>
+                                <input type="text" class="form-control" id="user_rating" name="user_rating" required>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary p-3 mb-2 bg-warning text-dark"><b>Create</b></button>
+                </form>
+            </div>
+            <main-footer></main-footer>
+    
+    <script>
+        // Function to fetch reviews from the API
+        function fetchReviews() {
+            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/reviews';
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const reviews = JSON.parse(data.body).items; // we take items in the body. (cfr. payload)
+                    const tableBody = document.getElementById('reviewTableBody');
+
+                    // Clear existing rows
+                    tableBody.innerHTML = '';
+
+                    // Sort reviews array by review_id
+                     reviews.sort((a, b) => a.review_id - b.review_id);
+
+                    // Populate table rows with review data
+					
+						// a line a in table is  <tr>...</tr>
+						// a column in a table is <td>...</td>
+						//
+						// So one line with two columns is : 
+						//	<tr>
+						// 		<td>value 1</td><td>value 2</td>
+						//	</tr>
+					
+                    reviews.forEach(review => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = '<td>' + review.review_id + '</td>' +
+					'<td>' + review.user_id + '</td>' +
+					'<td>' + review.movie_id + '</td>' +
+                    '<td>' + review.certified + '</td>' +
+					'<td>' + review.user_review + '</td>' +
+                    '<td>' + review.review_date + '</td>' +
+                    '<td>' + review.user_rating + '</td>' +
+                    // Delete Button
+                    '<td> <button data-id="' + review.review_id +'" onclick="deleteReview(this)" type="button" class="btn btn-outline-danger">Delete</button></td>'
+
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Unable to fetch reviews. Error:', error);
+                });
+        }
+        
+        // Function to create a new review using the API
+        function createReview(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const user_id = form.user_id.value;
+            const movie_id = form.movie_id.value;
+            const certified = form.certified.value;
+            const user_review = form.user_review.value;
+            const user_rating = form.user_rating.value;
+            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/reviews';
+
+            const newReview = {
+                user_id: user_id,
+                movie_id: movie_id,
+                certified: certified,
+                user_review: user_review,
+                user_rating: user_rating
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newReview)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Review created successfully:', data);
+                    // Refresh the review table to display the newly created review, by calling the fetchReviews() function :-)
+                    fetchReviews();
+                    // Reset the form
+                    form.reset();
+                })
+                .catch(error => {
+                    console.error('Unable to create review. Error:', error);
+                });
+        }
+
+
+        //function to delete Reviews
+        function deleteReview(element){
+            console.log(element.getAttribute("data-id"))
+            const review_id = element.getAttribute("data-id");
+            const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/reviews';
+                
+            const deleteReview = {
+                review_id : review_id
+            }
+                
+                fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(deleteReview)
+                })
+                .then(response => {
+                        console.log(response);
+                        response.json()
+                    })
+                .then(data => {
+                    console.log('Review deleted successfully:', data);
+                    // Refresh to display the table without the deleted order, by calling the fetchReviews() function
+                    fetchReviews();
+                    // Reset the form
+                    form.reset();
+                    //Refresh webpage
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Unable to delete Review. Error:', error);
+                });
+            }
+
+        // Add event listener to the form submit event
+	// when we click on submit, we trig the createReview() function
+        document.getElementById('createReviewForm').addEventListener('submit', createReview);
+        
+        var key; // Déclarer la variable key globalement
+
+        // Function to set a cookie
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        // Function to get a cookie
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        // Function to delete a cookie
+        function eraseCookie(name) {   
+            document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        }
+
+        // Function to handle authentication
+        function authenticate(event) {
+            event.preventDefault(); // Prevent form submission
+            
+            // Retrieve username and password from form
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            // Encode key for authentication
+            key = btoa(username + ':' + password);
+
+            // Make GET request to API endpoint only if not already authenticated
+            if (!getCookie('authenticated')) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/admins', true);
+                xhr.setRequestHeader('Authorization', 'Basic ' + key);
+
+                xhr.onload = function() {
+                    if (xhr.status == 200) {
+                        setCookie('authenticated', key, 1);
+                        updateUI(true);
+                        fetchReviews(); // Call the fetchReviews function after successful authentication
+                    } else {
+                        updateUI(false);
+                    }
+                };
+
+                xhr.onerror = function() {
+                    updateUI(false);
+                };
+
+                xhr.send();
+            }
+        }
+
+
+        // Function to handle UI update
+        function updateUI(authenticated) {
+            if (authenticated) {
+                document.getElementById('authSection').innerHTML = '<p>You are logged in. <a href="#" onclick="logout()">Logout</a></p>';
+                document.getElementById('message').textContent = '';
+              	document.getElementById('reviewManagementSection').style.display = 'block'; // Show review management section
+            } else {
+                document.getElementById('message').textContent = 'Unauthorized access';
+            }
+        }
+
+        // Function to handle logout
+        function logout() {
+            eraseCookie('authenticated');
+            location.reload();
+        }
+
+        // Check if user is already authenticated on page load
+        window.onload = function() {
+            if (getCookie('authenticated')) {
+                updateUI(true);
+            }
+        }
+        
+        fetchReviews()
+    </script>
+</body>
+</html>
+
