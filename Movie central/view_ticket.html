@@ -66,9 +66,9 @@
                 <td width ="40%"  class="align-middle p-3 mb-2">
                     <p id="userMessage"></p>
                     <a href="https://www.facebook.com" class="fa fa-facebook"></a>
-                    <a href="#" class="fa fa-twitter"></a>
-                    <a href="#" class="fa fa-youtube"></a>
-                    <a href="#" class="fa fa-instagram"></a>
+                    <a href="https://twitter.com" class="fa fa-twitter"></a>
+                    <a href="https://www.youtube.com" class="fa fa-youtube"></a>
+                    <a href="https://www.instagram.com" class="fa fa-instagram"></a>
                 </td>
                 <td width ="0.1%" id="cell1" class="p-3 mb-2 bg-warning text-dark display-6"></td>
                 <td width ="30%" id="cell2" class="align-middle p-3 mb-2"></td>
@@ -86,7 +86,7 @@
     </div>
     <main-footer></main-footer>
     <script>
-        var qrcode = new QRCode("qrcode", "https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/main_pages_html/view_ticket.html?bookingId="+bookingId);
+        var qrcode = new QRCode("qrcode", "https://group01moviecinema.s3.eu-central-1.amazonaws.com/html+files/main_pages_html/view_ticket_QR.html?bookingId="+bookingId+'&quantity='+quantity);
     </script>
 </body>
 </html>
