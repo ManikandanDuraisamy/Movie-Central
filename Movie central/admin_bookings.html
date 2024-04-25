@@ -17,6 +17,8 @@
 </head>
 <body>
     <main-header></main-header>
+
+    
     <div class="container" style="display: flex; justify-content: center;">
         <div id="authSection">
             <h2>Authentication Required</h2>
@@ -29,8 +31,8 @@
             </form>
         </div>
     </div>
-
-    <p id="message"></p>
+    <h1 id="message" style="color: red;"></h1>
+    
 
     <!-- Conditionally display booking management section -->
     <div id="bookingManagementSection" style="display: none;">
@@ -111,8 +113,10 @@
                 </form>
                 
             </div>
+            </div>
+            </div>
 
-    
+            <main-footer></main-footer>
     <script>
         // Function to fetch bookings from the API
         function fetchBookings() {
@@ -386,6 +390,6 @@
         }
         fetchBookings()
     </script>
-<main-footer></main-footer>
+
 </body>
 </html>

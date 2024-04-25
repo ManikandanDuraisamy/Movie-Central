@@ -28,7 +28,7 @@
                 window.location.href = newPageURL;                
             }
 
-        // Function to fetch cinemas from the API
+        // Function to fetch movies from the API
         function fetchUsers() {
             const url = 'https://w6foie252m.execute-api.eu-central-1.amazonaws.com/dev/movies';
 
@@ -54,11 +54,11 @@
                     });
                 })
                 .catch(error => {
-                    console.error('Unable to fetch users. Error:', error);
+                    console.error('Unable to fetch movies. Error:', error);
                 });
         }
 
-        // Fetch users when the page loads
+        // Fetch movies when the page loads
         fetchUsers();     
     </script>
 </head>
